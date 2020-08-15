@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/SOIL.h
+
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/main.c
+SOIL.h
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/SOIL.h
+windows.h
+-
+gl/gl.h
+-
+stdio.h
+-
+time.h
+-
+pacman.h
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/pacman.h
+
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/pacman.c
+stdio.h
+-
+math.h
+-
+stdlib.h
+-
+windows.h
+-
+gl/gl.h
+-
+SOIL.h
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/SOIL.h
+pacman.h
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/pacman.h
+
+C:/Users/Lucas Coutinho/Desktop/TrabalhoGBC014/PacMan/pacman.h
+

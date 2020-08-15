@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1571703004 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho6-avaliacao\main.c
+	<stdio.h>
+	<stdlib.h>
+	"tad.h"
+
+1571702527 c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho6-avaliacao\tad.h
+
+1571703004 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho_aed1\trabalho6-avaliacao\main.c
+	<stdio.h>
+	<stdlib.h>
+	"tad.h"
+
+1571702527 c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho_aed1\trabalho6-avaliacao\tad.h
+
+1571703022 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho_aed1\trabalho6-avaliacao\tad.c
+	<stdio.h>
+	<stdlib.h>
+	"tad.h"
+

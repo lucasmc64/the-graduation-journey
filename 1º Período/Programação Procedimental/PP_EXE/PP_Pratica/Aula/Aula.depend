@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1553603745 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\aula\main.c
+	<stdlib.h>
+
+1553603795 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\aula\teste 2.c
+	<stdio.h>
+	<stdlib.h>
+

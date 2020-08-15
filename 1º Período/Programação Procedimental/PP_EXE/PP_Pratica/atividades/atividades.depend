@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1553258821 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1553259436 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\atv2.c
+	<stdio.h>
+	<stdlib.h>
+
+1553259749 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\atv3.c
+	<stdio.h>
+	<stdlib.h>
+
+1553260264 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\atv4.c
+	<stdio.h>
+
+1553260951 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\atv5.c
+	<stdio.h>
+	<stdlib.h>
+
+1553261231 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\atividades\atv6.c
+	<stdio.h>
+	<stdlib.h>
+

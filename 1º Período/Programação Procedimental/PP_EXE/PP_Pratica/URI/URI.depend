@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1558291592 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\uri\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+

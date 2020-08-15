@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1574451769 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho2-7\main.c
+	<stdio.h>
+	<stdlib.h>
+	"tad.h"
+
+1574451650 c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho2-7\tad.h
+
+1574451678 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\trabalho2-7\tad.c
+	<stdio.h>
+	<stdlib.h>
+	"tad.h"
+

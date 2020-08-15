@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1556727703 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\fibonacii\main.c
+	<stdio.h>
+	<stdlib.h>
+

@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1560480789 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\si\main.c
+	"SOIL.h"
+	<windows.h>
+	<gl/gl.h>
+	<stdio.h>
+	<time.h>
+	"space.h"
+
+1215465208 c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\si\soil.h
+
+1560479624 c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\si\space.h
+
+1560482147 source:c:\users\lucas coutinho\desktop\pp_exe\pp_pratica\si\space.c
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+	<windows.h>
+	<gl/gl.h>
+	"SOIL.h"
+	"space.h"
+

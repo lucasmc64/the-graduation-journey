@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1571165948 source:c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\lab8-1a\pilha.c
+	<stdio.h>
+	<stdlib.h>
+	"pilha.h"
+
+1571166033 c:\users\lucas coutinho\onedrive - ufu.br\project pufu\2º período\algoritimos e estrutura de dados 1\ex\lab8-1a\pilha.h
+
