@@ -2,4 +2,4 @@
     Exercício 5
 -}
 
-dist_entre x1 y1 x2 y2 = sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+distancia_entre x1 y1 x2 y2 = sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
