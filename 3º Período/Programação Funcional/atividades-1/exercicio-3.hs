@@ -3,4 +3,4 @@
 -}
 
 duplica x = x * 2
-quadruplica y = duplica y + duplica y
+quadruplica x = duplica (duplica x)
