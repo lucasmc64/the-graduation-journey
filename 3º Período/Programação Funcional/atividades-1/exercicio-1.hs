@@ -83,4 +83,4 @@ main =
 
 -- True && False -> Verifica se os dois argumentos são verdadeiros. O resultado é False.
 
-    print(True && False) >>
+    print(True && False)
