@@ -23,6 +23,10 @@ area_circulo r = pi * r ^ 2
 -- Calcular a área de um trapézio
 area_trapezio b_maior b_menor h = (b_maior + b_menor) * h / 2
 
+{-
+    Vídeo 3
+-}
+
 -- Função para converter um valor Fahrenheit em Celsius
 converteFC :: Float -> Float
 converteFC x = (x - 32) / 1.8
@@ -58,3 +62,14 @@ maxTres x y z
     | x >= y && x >= z = x
     | y >= z = y -- x não é o maior dos 3, então só é preciso verificar em relação a z
     | otherwise = z
+
+{-
+    Vídeo 4
+-}
+
+-- Função de soma recebendo uma tupla como parâmetro
+soma_tupla :: (Int, Int) -> Int
+soma_tupla (x, y) = x + y
+
+media_tupla :: (Float, Float, Float) -> Float
+media_tupla (x, y, z) = (x + y + z) / 3
