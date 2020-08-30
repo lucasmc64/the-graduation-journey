@@ -73,3 +73,8 @@ soma_tupla (x, y) = x + y
 
 media_tupla :: (Float, Float, Float) -> Float
 media_tupla (x, y, z) = (x + y + z) / 3
+
+{-
+    Vídeo 5
+-}
+

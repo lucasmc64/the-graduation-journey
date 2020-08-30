@@ -21,7 +21,7 @@ int main(){
             break;
         }
         resultado = fputs(&letra, p);
-        if(resultado == EOF){
+        if(resultado == EOF || resultado == 0){
             printf("Erro ao gravar no arquivo!");
             system("pause");
             exit(1);
@@ -33,7 +33,7 @@ int main(){
     printf("\n");
 
     while(1){
-        fgets(&letra, 2, p);
+        fgets(&letra, 1, p);
         if(feof(p)){
             break;
         }
