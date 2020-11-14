@@ -1,6 +1,6 @@
 /* +=-=+ Capítulo 1 +=-=+ */
 
-// Dados Qualitativos - Tabela de Frequências
+/* +=+ Dados Qualitativos - Tabela de Frequências +=+ */
 
 function Element(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency) {
     this.absolute_frequency = absolute_frequency;
@@ -10,7 +10,7 @@ function Element(absolute_frequency, relative_frequency, percentage_frequency, c
     this.cumulative_percentage_frequency = cumulative_percentage_frequency;
 }
 
-function qualitativeFrequencies (observations) {
+function qualitativeFrequencies(observations) {
     observations.sort(
         function compare(a, b) {
             return a - b;
@@ -48,9 +48,9 @@ function qualitativeFrequencies (observations) {
 
 // console.table(qualitativeFrequencies([1,1,1,2,5])); // Aqui entra um array com todos as observações
 
-// Dados Quantitativos - Tabela de Frequências
+/* +=+ Dados Quantitativos - Tabela de Frequências +=+ */
 
-function quantitativeFrequencies (observations) {
+function quantitativeFrequencies(observations) {
     let number_of_classes = Math.sqrt(observations.length);
 
     observations.sort(
@@ -100,3 +100,18 @@ function quantitativeFrequencies (observations) {
 
 // console.table(quantitativeFrequencies([1,1,1,2,5]));
 
+/* +=-=+ Capítulo 2 +=-=+ */
+
+/* +=+ Média Aritmética +=+ */
+
+function arithmeticAverage(data) {
+    let sum = data.reduce(function(accumulator, current_value) {
+        return accumulator += current_value;
+    }, 0)
+
+    let result = sum / data.length;
+
+    return result;
+}
+
+//console.log(arithmeticAverage([1,1,1,2,5]));
