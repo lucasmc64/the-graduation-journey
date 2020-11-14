@@ -1,14 +1,14 @@
 /* +=-=+ Capítulo 1 +=-=+ */
 
-/* +=+ Dados Qualitativos - Tabela de Frequências +=+ */
-
-function Element(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency) {
+function frequenciesElement(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency) {
     this.absolute_frequency = absolute_frequency;
     this.relative_frequency = relative_frequency;
     this.percentage_frequency = percentage_frequency;
     this.cumulative_frequency = cumulative_frequency;
     this.cumulative_percentage_frequency = cumulative_percentage_frequency;
 }
+
+/* +=+ Dados Qualitativos - Tabela de Frequências +=+ */
 
 function qualitativeFrequencies(observations) {
     observations.sort(
@@ -33,20 +33,21 @@ function qualitativeFrequencies(observations) {
             index++;
         }
 
-        let relative_frequency = absolute_frequency / number_of_observations;
+        let relative_frequency = Math.round(absolute_frequency * 100 / number_of_observations) / 100;
         let percentage_frequency = relative_frequency * 100;
-    
+        
         cumulative_frequency += absolute_frequency;
-        cumulative_percentage_frequency += percentage_frequency;
-        results[reduced_observations[i]] = new Element(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency);
+        cumulative_percentage_frequency = Math.round(cumulative_frequency * 100 / number_of_observations);
+
+        results[reduced_observations[i]] = new frequenciesElement(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency);
     }
 
-    results['total'] = new Element(number_of_observations, 1.0, 100, '-', '-');
+    results['total'] = new frequenciesElement(number_of_observations, 1.0, 100, '-', '-');
 
     return results;
 }
 
-// console.table(qualitativeFrequencies([1,1,1,2,5])); // Aqui entra um array com todos as observações
+// console.table(qualitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34])); // Aqui entra um array com todos as observações
 
 /* +=+ Dados Quantitativos - Tabela de Frequências +=+ */
 
@@ -94,33 +95,51 @@ function quantitativeFrequencies(observations) {
         let percentage_frequency = relative_frequency * 100;
         
         cumulative_frequency += absolute_frequency;
-        cumulative_percentage_frequency = Math.round(cumulative_frequency * 100 / number_of_observations) ;
+        cumulative_percentage_frequency = Math.round(cumulative_frequency * 100 / number_of_observations);
 
         inferior_limit = upper_limit;
 
-        results[current_class] = new Element(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency);
+        results[current_class] = new frequenciesElement(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency);
     }
 
-    results['total'] = new Element(number_of_observations, 1.0, 100, '-', '-');
+    results['total'] = new frequenciesElement(number_of_observations, 1.0, 100, '-', '-');
 
     return results;
 }
 
-console.table(quantitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34]));
+// console.table(quantitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34]));
 
 /* +=-=+ Capítulo 2 +=-=+ */
+
+function arithmeticAverageElement(value, average, detour) {
+    this.value = value;
+    this.average = average;
+    this.detour = detour;
+}
 
 /* +=+ Média Aritmética +=+ */
 
 function arithmeticAverage(data) {
+    data.sort(
+        function compare(a, b) {
+            return a - b;
+        }
+    );
+
     let sum = data.reduce(function(accumulator, current_value) {
         return accumulator += current_value;
     }, 0)
 
-    let result = sum / data.length;
+    let average = sum / data.length;
 
-    return result;
+    console.log(`A média aritmética é ${average}`);
+
+    let results = data.map(function(value) {
+        return new arithmeticAverageElement(value, average, value - average);
+    })
+
+    return results;
 }
 
-//console.log(arithmeticAverage([1,1,1,2,5]));
+console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]));
 
