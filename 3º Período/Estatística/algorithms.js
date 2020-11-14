@@ -1,3 +1,15 @@
+/* +=+ Códigos "Globais" +=+ */
+
+function orderArray(data) {
+    data.sort(
+        function compare(a, b) {
+            return a - b;
+        }
+    );
+
+    return data;
+}
+
 /* +=-=+ Capítulo 1 +=-=+ */
 
 function frequenciesElement(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency) {
@@ -11,6 +23,8 @@ function frequenciesElement(absolute_frequency, relative_frequency, percentage_f
 /* +=+ Dados Qualitativos - Tabela de Frequências +=+ */
 
 function qualitativeFrequencies(observations) {
+    console.log(`\n\n`);
+
     observations.sort(
         function compare(a, b) {
             return a - b;
@@ -48,6 +62,7 @@ function qualitativeFrequencies(observations) {
 }
 
 // console.table(qualitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34])); // Aqui entra um array com todos as observações
+// console.log(`\n\n`);
 
 /* +=+ Dados Quantitativos - Tabela de Frequências +=+ */
 
@@ -108,6 +123,7 @@ function quantitativeFrequencies(observations) {
 }
 
 // console.table(quantitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34]));
+// console.log(`\n\n`);
 
 /* +=-=+ Capítulo 2 +=-=+ */
 
@@ -120,6 +136,8 @@ function arithmeticAverageElement(value, average, detour) {
 /* +=+ Média Aritmética +=+ */
 
 function arithmeticAverage(data) {
+    console.log(`\n\n`);
+    
     data.sort(
         function compare(a, b) {
             return a - b;
@@ -141,5 +159,22 @@ function arithmeticAverage(data) {
     return results;
 }
 
-console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]));
+// console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]));
+// console.log(`\n\n`);
 
+function median(data) {
+    let ordered_data = orderArray(data);
+    let middle_position = ordered_data.length / 2;
+    let result;
+
+    if(ordered_data.length % 2 == 0) {
+        result = (ordered_data[middle_position] + ordered_data[middle_position - 1]) / 2;
+    } else {
+        result = ordered_data[Math.floor(middle_position)];
+    }
+
+    return result;
+}
+
+// console.log(median([1, 3, 8, 6, 2, 4]));
+// console.log(`\n\n`);
