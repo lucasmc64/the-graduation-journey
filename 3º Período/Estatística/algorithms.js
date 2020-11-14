@@ -46,7 +46,7 @@ function qualitativeFrequencies (observations) {
     return results;
 }
 
-// console.log(frequencies([1,1,1,2,5])); // Aqui entra um array com todos as observações
+// console.table(qualitativeFrequencies([1,1,1,2,5])); // Aqui entra um array com todos as observações
 
 // Dados Quantitativos - Tabela de Frequências
 
@@ -98,4 +98,5 @@ function quantitativeFrequencies (observations) {
     return results;
 }
 
-console.table(quantitativeFrequencies([1,1,1,2,5]));
+// console.table(quantitativeFrequencies([1,1,1,2,5]));
+
