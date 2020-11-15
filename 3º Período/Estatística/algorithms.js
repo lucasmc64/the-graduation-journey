@@ -25,24 +25,20 @@ function frequenciesElement(absolute_frequency, relative_frequency, percentage_f
 function qualitativeFrequencies(observations) {
     console.log(`\n\n`);
 
-    observations.sort(
-        function compare(a, b) {
-            return a - b;
-        }
-    );
+    let ordered_observations = orderArray(observations);
 
     let results = {};
-    let number_of_observations = observations.length;
-    let reduced_observations = observations.filter(function(item, i) {
-        return observations.indexOf(item) === i;
+    let number_of_observations = ordered_observations.length;
+    let reduced_observations = ordered_observations.filter(function(item, i) {
+        return ordered_observations.indexOf(item) === i;
     });
 
     let cumulative_frequency = 0, cumulative_percentage_frequency = 0;
     for(let i = 0; i < reduced_observations.length; i++) {
         let absolute_frequency = 0;
 
-        let index = observations.indexOf(reduced_observations[i]);
-        while(observations[index] == reduced_observations[i]) {
+        let index = ordered_observations.indexOf(reduced_observations[i]);
+        while(ordered_observations[index] == reduced_observations[i]) {
             absolute_frequency++;
             index++;
         }
@@ -72,15 +68,11 @@ function quantitativeFrequencies(observations) {
     let number_of_classes = Math.round(Math.sqrt(observations.length));
     console.log(`Número de classes (k): ${number_of_classes}`);
 
-    observations.sort(
-        function compare(a, b) {
-            return a - b;
-        }
-    );
+    let ordered_observations = orderArray(observations);
 
-    let min = observations[0];
+    let min = ordered_observations[0];
     console.log(`Menor valor (Min): ${min}`);
-    let max = observations[observations.length - 1];
+    let max = ordered_observations[ordered_observations.length - 1];
     console.log(`Maior valor (Max): ${max}`);
     
     let amplitude = +(max - min).toFixed(2);
@@ -93,7 +85,7 @@ function quantitativeFrequencies(observations) {
     console.log(`Limite inferior (LI1): ${inferior_limit}`);
 
     let results = {};
-    let number_of_observations = observations.length;
+    let number_of_observations = ordered_observations.length;
 
     let cumulative_frequency = 0, cumulative_percentage_frequency = 0;
     for(let i = 0; i < number_of_classes; i++) {
@@ -102,7 +94,7 @@ function quantitativeFrequencies(observations) {
         let current_class = `${inferior_limit} |- ${+(inferior_limit + class_amplitude).toFixed(2)}`
         let upper_limit = +(inferior_limit + class_amplitude).toFixed(2);
 
-        absolute_frequency = observations.filter((item, i) => {
+        absolute_frequency = ordered_observations.filter((item, i) => {
             return inferior_limit <= item && item < upper_limit;
         }).length;
         
@@ -178,3 +170,4 @@ function median(data) {
 
 // console.log(median([1, 3, 8, 6, 2, 4]));
 // console.log(`\n\n`);
+
