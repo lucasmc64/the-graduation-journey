@@ -308,27 +308,31 @@ function boxplot(data) {
 
 /* +=-=+ Capítulo 3 +=-=+ */
 
-/* +=+ Variância e Desvio Padrão +=+ */
+/* +=+ Variância +=+ */
 
-function variance(data) {
+function variance(data, info) {
     let average = arithmeticAverage(data);
 
     let variance_sum = average.results.reduce(function(accumulator, current_item) {
-        return accumulator + Math.pow(current_item.detour - average.average, 2);
+        return accumulator + Math.pow(current_item.detour, 2);
     }, 0)
 
-    return Math.round(variance_sum * 100 / data.length) / 100;
+    return info == 'population' ? Math.round(variance_sum * 100 / data.length) / 100 : Math.round(variance_sum * 100 / (data.length - 1)) / 100
 }
 
-// console.log(variance([187, 183, 185]));
+// console.log(variance([187, 183, 185], 'sample')); // Mudar para 'population' caso os dados se tratem de uma população
+
+/* +=+ Desvio Padrão +=+ */
 
 function standardDetour(data) {
-    let variance_result = variance(data);
+    let variance_result = variance(data, 'sample'); // Mudar para 'population' caso os dados se tratem de uma população
 
     return Math.round(Math.sqrt(variance_result) * 100) / 100;
 }
 
 // console.log(standardDetour([187, 183, 185]));
+
+/* +=+ Coeficiente de Variação +=+ */
 
 function coefficientOfVariation(data) {
     let standard_detour_result = standardDetour(data);
@@ -337,4 +341,6 @@ function coefficientOfVariation(data) {
     return Math.round(10000 * (standard_detour_result / average_result.average)) / 100;
 }
 
-console.log(coefficientOfVariation([187, 183, 185]));
+// console.log(coefficientOfVariation([187, 183, 185]));
+
+/* +=+  +=+ */
