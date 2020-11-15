@@ -242,4 +242,33 @@ function symmetry(data) {
     }
 }
 
-symmetry([10 , 10 , 10, 100]);
+// symmetry([10 , 10 , 10, 100]);
+// console.log(`\n\n`);
+
+/* +=+ Quartis +=+ */
+
+function quarter(data) {
+    let ordered_data = orderData(data);
+
+    let first_quarter = (1 * (ordered_data.length + 1)) / 4;
+    let second_quarter = (2 * (ordered_data.length + 1)) / 4;
+    let third_quarter = (3 * (ordered_data.length + 1)) / 4;
+
+    console.log(`Primeiro quartil (EQ1): ${first_quarter}`);
+    console.log(`Segundo quartil (EQ2): ${second_quarter}`);
+    console.log(`Terceiro quartil (EQ3): ${third_quarter}`);
+}
+
+// quarter([2, 5, 6, 9, 10, 13, 15]);
+
+/* +=+ Percentil +=+ */
+
+function percentile(data, percentage) {
+    let ordered_data = orderData(data);
+
+    let percentile_result = (percentage * (ordered_data.length + 1)) / 100;
+
+    console.log(`Percentil ${percentage} (EP${percentage}): ${percentile_result}º elemento (${ordered_data[percentile_result - 1]})`);
+}
+
+// percentile([2, 5, 6, 9, 10, 13, 15], 50);
