@@ -329,3 +329,12 @@ function standardDetour(data) {
 }
 
 // console.log(standardDetour([187, 183, 185]));
+
+function coefficientOfVariation(data) {
+    let standard_detour_result = standardDetour(data);
+    let average_result = arithmeticAverage(data);
+
+    return Math.round(10000 * (standard_detour_result / average_result.average)) / 100;
+}
+
+console.log(coefficientOfVariation([187, 183, 185]));
