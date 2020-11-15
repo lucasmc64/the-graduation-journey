@@ -250,13 +250,15 @@ function symmetry(data) {
 function quarter(data) {
     let ordered_data = orderData(data);
 
-    let first_quarter = (1 * (ordered_data.length + 1)) / 4;
-    let second_quarter = (2 * (ordered_data.length + 1)) / 4;
-    let third_quarter = (3 * (ordered_data.length + 1)) / 4;
+    let first_quarter = Math.round((1 * (ordered_data.length + 1)) / 4);
+    let second_quarter = median(ordered_data);
+    let third_quarter = Math.round((3 * (ordered_data.length + 1)) / 4);
 
-    console.log(`Primeiro quartil (EQ1): ${first_quarter}`);
-    console.log(`Segundo quartil (EQ2): ${second_quarter}`);
-    console.log(`Terceiro quartil (EQ3): ${third_quarter}`);
+    console.log(`Primeiro quartil (EQ1): ${first_quarter}º elemento, ${ordered_data[first_quarter - 1]}`);
+    console.log(`Segundo quartil (EQ2): ${second_quarter}º elemento, ${second_quarter}`);
+    console.log(`Terceiro quartil (EQ3): ${third_quarter}º elemento, ${ordered_data[third_quarter - 1]}`);
+
+    return {first_quarter, second_quarter, third_quarter};
 }
 
 // quarter([2, 5, 6, 9, 10, 13, 15]);
@@ -272,3 +274,31 @@ function percentile(data, percentage) {
 }
 
 // percentile([2, 5, 6, 9, 10, 13, 15], 50);
+
+/* +=+ Boxplot +=+ */
+
+function boxplot(data) {
+    let quarters = quarter(data);
+    console.log(`\n\n`);
+    let dq = data[quarters.third_quarter - 1] - data[quarters.first_quarter - 1];
+    let inferior_limit = data[quarters.first_quarter - 1] - 1.5 * dq;
+    let upper_limit = data[quarters.third_quarter - 1] + 1.5 * dq;
+    let values_above = data.filter(function(value) {
+        return value > upper_limit;
+    });
+    let values_below = data.filter(function(value) {
+        return value < inferior_limit;
+    });
+
+    (data[quarters.third_quarter - 1] - quarters.second_quarter == quarters.second_quarter - data[quarters.first_quarter - 1]) ? console.log(`Distribuição simétrica`) : ((data[quarters.third_quarter - 1] - quarters.second_quarter > quarters.second_quarter - data[quarters.first_quarter - 1]) ? console.log(`Distribuição assimétrica positiva (Q2 mais próximo do Q1)`) : console.log(`Distribuição assimétrica negativa (Q2 mais próximo do Q3)`));
+
+    console.log(`Valores acima do limite superior: ${values_above}`);
+    console.log(`Limite superior (LS): ${upper_limit}`);
+    console.log(`Terceiro quartil (Q3): ${data[quarters.third_quarter - 1]}`);
+    console.log(`Segundo quartil ou mediana (Q2): ${quarters.second_quarter}`);
+    console.log(`Primeiro quartil (Q1): ${data[quarters.first_quarter - 1]}`);
+    console.log(`Limite inferior (LI): ${inferior_limit}`);
+    console.log(`Valores abaixo do limite inferior: ${values_below}`);
+}
+
+// boxplot([25, 28, 29, 29, 30, 34, 35, 35, 37, 38]);
