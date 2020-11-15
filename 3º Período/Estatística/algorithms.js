@@ -153,16 +153,14 @@ function arithmeticAverage(data) {
 
     let average = sum / data.length;
 
-    console.log(`A média aritmética é ${average}`);
-
     let results = data.map(function(value) {
         return new arithmeticAverageElement(value, average, value - average);
     })
 
-    return results;
+    return {average, results};
 }
 
-// console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]));
+// console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]).results);
 // console.log(`\n\n`);
 
 /* +=+ Mediana +=+ */
@@ -227,3 +225,21 @@ function vogue(data) {
 
 // console.table(vogue([7 , 8 , 9 , 2, 2, 2, 10 , 10 , 10 , 11 , 12]));
 // console.log(`\n\n`);
+
+/* +=+ Análise de Simetria entre Média, Mediana e Moda +=+ */
+
+function symmetry(data) {
+    let average_result = arithmeticAverage(data);
+    let median_result = median(data);
+    let vogue_result = vogue(data);
+
+    if(average_result.average == median_result && median_result == vogue_result[0].value) {
+        console.log(`Média (${average_result.average}) == Mediana (${median_result}) == Moda (${median_result}) -> Distribuição simétrica`);
+    } else if(average_result.average >= median_result && median_result >= vogue_result[0].value) {
+        console.log(`Média (${average_result.average}) >= Mediana (${median_result}) >= Moda (${median_result}) -> Distribuição assimétrica à direita`);
+    } else {
+        console.log(`Média (${average_result.average}) <= Mediana (${median_result}) <= Moda (${median_result}) -> Distribuição assimétrica à esquerda`);
+    }
+}
+
+symmetry([10 , 10 , 10, 100]);
