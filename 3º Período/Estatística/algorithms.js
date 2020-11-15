@@ -18,6 +18,7 @@ function removesRepeatedValues(data) {
     return reduced_data;
 }
 
+
 /* +=-=+ Capítulo 1 +=-=+ */
 
 function frequenciesElement(absolute_frequency, relative_frequency, percentage_frequency, cumulative_frequency, cumulative_percentage_frequency) {
@@ -122,6 +123,7 @@ function quantitativeFrequencies(data) {
 
 // console.table(quantitativeFrequencies([6.94, 8.56, 9.55, 10.14, 10.88, 7.27, 8.66, 9.76, 10.19, 11.16, 7.46, 8.88, 9.80, 10.42, 11.80, 7.97, 8.95, 9.82, 10.44, 11.88, 8.03, 9.30, 9.98, 10.66, 12.25, 8.37, 9.33, 9.99, 10.88, 12.34]));
 // console.log(`\n\n`);
+
 
 /* +=-=+ Capítulo 2 +=-=+ */
 
@@ -302,3 +304,28 @@ function boxplot(data) {
 }
 
 // boxplot([25, 28, 29, 29, 30, 34, 35, 35, 37, 38]);
+
+
+/* +=-=+ Capítulo 3 +=-=+ */
+
+/* +=+ Variância e Desvio Padrão +=+ */
+
+function variance(data) {
+    let average = arithmeticAverage(data);
+
+    let variance_sum = average.results.reduce(function(accumulator, current_item) {
+        return accumulator + Math.pow(current_item.detour - average.average, 2);
+    }, 0)
+
+    return Math.round(variance_sum * 100 / data.length) / 100;
+}
+
+// console.log(variance([187, 183, 185]));
+
+function standardDetour(data) {
+    let variance_result = variance(data);
+
+    return Math.round(Math.sqrt(variance_result) * 100) / 100;
+}
+
+// console.log(standardDetour([187, 183, 185]));
