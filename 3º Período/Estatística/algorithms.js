@@ -343,4 +343,25 @@ function coefficientOfVariation(data) {
 
 // console.log(coefficientOfVariation([187, 183, 185]));
 
-/* +=+  +=+ */
+
+/* +=-=+ Capítulo 4 +=-=+ */
+
+/* +=+ Probabilidade Clássica +=+ */
+
+function probClassic(n, data) {
+    let n_count = 0;
+    
+    data.forEach(function(item) {
+        if(n == item) n_count++;
+    })
+    
+    return Math.round(n_count * 100 / data.length) / 100;
+}
+
+// console.log(probClassic(1, [1, 1, 3]));
+
+/* +=+ Probabilidade de Kolmogorov +=+ */
+
+function probKolmogorov(data) {
+    
+}
