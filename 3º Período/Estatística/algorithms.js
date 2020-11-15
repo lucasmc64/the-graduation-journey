@@ -1,6 +1,6 @@
 /* +=+ Códigos "Globais" +=+ */
 
-function orderArray(data) {
+function orderData(data) {
     data.sort(
         function compare(a, b) {
             return a - b;
@@ -8,6 +8,14 @@ function orderArray(data) {
     );
 
     return data;
+}
+
+function removesRepeatedValues(data) {
+    let reduced_data = data.filter(function(item, i) {
+        return data.indexOf(item) === i;
+    })
+
+    return reduced_data;
 }
 
 /* +=-=+ Capítulo 1 +=-=+ */
@@ -22,23 +30,21 @@ function frequenciesElement(absolute_frequency, relative_frequency, percentage_f
 
 /* +=+ Dados Qualitativos - Tabela de Frequências +=+ */
 
-function qualitativeFrequencies(observations) {
+function qualitativeFrequencies(data) {
     console.log(`\n\n`);
 
-    let ordered_observations = orderArray(observations);
+    let ordered_data = orderData(data);
 
     let results = {};
-    let number_of_observations = ordered_observations.length;
-    let reduced_observations = ordered_observations.filter(function(item, i) {
-        return ordered_observations.indexOf(item) === i;
-    });
+    let number_of_observations = ordered_data.length;
+    let reduced_observations = removesRepeatedValues(ordered_data);
 
     let cumulative_frequency = 0, cumulative_percentage_frequency = 0;
     for(let i = 0; i < reduced_observations.length; i++) {
         let absolute_frequency = 0;
 
-        let index = ordered_observations.indexOf(reduced_observations[i]);
-        while(ordered_observations[index] == reduced_observations[i]) {
+        let index = ordered_data.indexOf(reduced_observations[i]);
+        while(ordered_data[index] == reduced_observations[i]) {
             absolute_frequency++;
             index++;
         }
@@ -62,17 +68,17 @@ function qualitativeFrequencies(observations) {
 
 /* +=+ Dados Quantitativos - Tabela de Frequências +=+ */
 
-function quantitativeFrequencies(observations) {
+function quantitativeFrequencies(data) {
     console.log(`\n\n`);
 
-    let number_of_classes = Math.round(Math.sqrt(observations.length));
+    let number_of_classes = Math.round(Math.sqrt(data.length));
     console.log(`Número de classes (k): ${number_of_classes}`);
 
-    let ordered_observations = orderArray(observations);
+    let ordered_data = orderData(data);
 
-    let min = ordered_observations[0];
+    let min = ordered_data[0];
     console.log(`Menor valor (Min): ${min}`);
-    let max = ordered_observations[ordered_observations.length - 1];
+    let max = ordered_data[ordered_data.length - 1];
     console.log(`Maior valor (Max): ${max}`);
     
     let amplitude = +(max - min).toFixed(2);
@@ -85,7 +91,7 @@ function quantitativeFrequencies(observations) {
     console.log(`Limite inferior (LI1): ${inferior_limit}`);
 
     let results = {};
-    let number_of_observations = ordered_observations.length;
+    let number_of_observations = ordered_data.length;
 
     let cumulative_frequency = 0, cumulative_percentage_frequency = 0;
     for(let i = 0; i < number_of_classes; i++) {
@@ -94,7 +100,7 @@ function quantitativeFrequencies(observations) {
         let current_class = `${inferior_limit} |- ${+(inferior_limit + class_amplitude).toFixed(2)}`
         let upper_limit = +(inferior_limit + class_amplitude).toFixed(2);
 
-        absolute_frequency = ordered_observations.filter((item, i) => {
+        absolute_frequency = ordered_data.filter((item, i) => {
             return inferior_limit <= item && item < upper_limit;
         }).length;
         
@@ -123,6 +129,11 @@ function arithmeticAverageElement(value, average, detour) {
     this.value = value;
     this.average = average;
     this.detour = detour;
+}
+
+function vogueElement(value, count) {
+    this.value = value;
+    this.count = count;
 }
 
 /* +=+ Média Aritmética +=+ */
@@ -154,8 +165,10 @@ function arithmeticAverage(data) {
 // console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]));
 // console.log(`\n\n`);
 
+/* +=+ Mediana +=+ */
+
 function median(data) {
-    let ordered_data = orderArray(data);
+    let ordered_data = orderData(data);
     let middle_position = ordered_data.length / 2;
     let result;
 
@@ -171,3 +184,46 @@ function median(data) {
 // console.log(median([1, 3, 8, 6, 2, 4]));
 // console.log(`\n\n`);
 
+/* +=+ Moda +=+ */
+
+function vogue(data) {
+    console.log(`\n\n`);
+
+    let ordered_data = orderData(data);
+    let reduced_data = removesRepeatedValues(data);
+    let results = [];
+
+    for(let i = 0; i < reduced_data.length; i++) {
+        let value_position = ordered_data.indexOf(reduced_data[i]);
+        let value_count = 0;
+
+        while(reduced_data[i] == ordered_data[value_position]) {
+            value_count++;
+            value_position++;
+        }
+
+        results.push(new vogueElement(reduced_data[i], value_count));
+    }
+
+    let bigger_count = results[0].count;
+
+    results.forEach(function(item) {
+        if(item.count > bigger_count) bigger_count = item.count;
+    })
+
+    if(bigger_count > 1) {
+        results = results.filter(function(item, i) {
+            return item.count === bigger_count;
+        })
+    } else {
+        console.log(`Amostra amodal (não possui moda)`);
+        return [];
+    }
+
+    results.length == 1 ? console.log(`Amostra unimodal`) : (results.length == 2 ? console.log(`Amostra bimodal`) : console.log(`Amostra multimodal`))
+    
+    return results;
+}
+
+// console.table(vogue([7 , 8 , 9 , 2, 2, 2, 10 , 10 , 10 , 11 , 12]));
+// console.log(`\n\n`);
