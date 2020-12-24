@@ -1,0 +1,357 @@
+# Homework 2
+
+Alunos: Lucas Marçal Coutinho, Lucas Mattos Vieira e Loredana Romano Devico.
+
+Códigos de Matrícula: 11911BCC012, 11911BCC015 e 11911BCC001 (respectivamente).
+
+# Questões
+
+P1) O tempo de acesso à memória pode ser considerado um dos maiores gargalos da computação e, para 
+compensar esse gap entre processador-memória,foi criada uma estrutura de hierarquia de memória. 
+Separada em níveis, o mais alto é o mais próximo do processador, os registradores. Descendo, temos 
+os níveis de cache e logo em seguida a memória principal, a DRAM. Depois, vem a memória externa, 
+que é um disco rígido fixo e pode ser seguida por discos ópticos e fitas. 
+
+Memória na placa, fora da placa e off-line:
+
+                     | REGISTRADORES |
+
+                    |  MEMÓRIA CACHE  |
+
+                   | MEMÓRIA PRINCIPAL |
+
+                 |    DISCO MAGNÉTICO    |
+
+              |         CDS E DVDS         |
+
+            |        FITA MAGNÉTICA          |
+
+P2) 
+
+[Memória Cache](https://www.notion.so/c25546550986442882f30b3b938f63e5)
+obs: Não foi possível passar a tabela.
+
+b) A memória cache é dividida em níveis que dizem respeito à proximidade com o processador; 
+quanto mais próxima, menor seu nível e mais rápido sua execução. Um dos fatores que contribui 
+com a velocidade é o tamanho, o cache L1 então com o menor tamanho, é o mais rápido e com menor espaço.   
+Mas o L1 é muito pequeno para agilizar os múltiplos processos de execução, necessitando de outros níveis, 
+estes mais distantes do processador, e podendo ser maiores e relativamente mais devagar. 
+
+Assim, seguindo também uma certa hierarquia, (1) cache L1 é menor porque seu trade-off é ágil, 
+sendo menor em tamanho e mais rápido em execução e porque (2) é o mais próximo do processador e, 
+para "passar a ideia de uma memória rápida", deve ser rápido também.
+
+P3) A memória do computador é dividida em células, que são a menor unidade endereçável (ou seja, 
+a menor localização endereçável) e o endereçamento pode ser feito em palavras ou em bytes, 
+dependendo da memória, sendo expressos no sistema binário. Isso significa que cada byte ou 
+palavra tem seu próprio endereço exclusivo e pode ser acessado, variando a quantidade de bits 
+usados para índice, tag e deslocamento.
+
+P4) O princípio da localidade afirma que os dados na vizinhança de uma palavra referenciada tem 
+altas chances de serem referenciados no futuro próximo. Já a Propriedade de Inclusão significa 
+que os itens armazenados no nível mais externo e, durante o processamento, subconjuntos são copiados 
+para o nível inferior de maneira sucessiva. Assim, um dado encontrado em N3 terá cópias nos níveis superiores N4, N5 ... Nm. 
+
+P5) A Taxa de Falta possui três categorias: 
+
+- Faltas Compulsórias: ocorreriam com a primeira referência a um bloco, falhas no acesso, 
+causadas pelo acesso que nunca esteve na cache. É reduzida pela capacidade.
+
+- Faltas por Capacidade: quando um cache não comporta todos os blocos necessários para a execução. 
+É reduzida pelo tamanho do bloco (menor número de blocos pode aumentar conflito mas o bloco maior também pode aumentar).
+
+- Faltas por Conflito: ocorreriam mesmo com cache não-cheia, mas que não ocorreriam se a cache fosse totalmente 
+associativa. Ocorrem por colisões no mapeamento de blocos na cache, quando diversos blocos competem pelo conjunto. 
+Pode ser reduzida pela associatividade.
+
+P6) hit-time + (1-hit-rate) * miss-penalty = Tempo de Acesso Efetivo
+10ns + (1-0.75)*100 = 10 + 25 = 35ns
+Resposta: O tempo efetivo é 35ns. 
+
+P7) O full associative permite que os blocos sejam colocados em qualquer linha, e a tag passa a ser constituída 
+por todos os bits do endereço, menos o índice. Com isso, reduz o número de colisões, mas aumenta o número de 
+bits usados pela tag e o processador tem que procurar em todas as linhas da cache. Além disso, há um consumo 
+alto de bits para o endereço. Com isso, entende-se que o custo em tempo é alto, assim como no processamento. 
+
+P8) 
+
+128 palavras, 32 blocos, 4 palavras por bloco → 2^7 → Endereço de tamanho 7
+Cache = 8 slots
+
+ 0 | Tag |  1   |  2  |  3  |  4  | 
+
+ 1 | Tag |  1   |  2  |  3  |  4  |
+
+ 2 | Tag |  1   |  2  |  3  |  4  |
+
+ 3 | Tag |  1   |  2  |  3  |  4  |
+
+ 4 | Tag |  1   |  2  |  3  |  4  |
+
+ 5 | Tag |  1   |  2  |  3  |  4  |
+
+ 6 | Tag |  1   |  2  |  3  |  4  |
+
+ 7 | Tag |  1   |  2  |  3  |  4  |
+
+           0        1        2       3          = 4 palavras
+
+0   |     .         .        .       .
+
+1   |     .         .        .       .
+
+2   |
+
+3   |
+
+4   |
+
+.
+
+.
+
+.
+
+31 |
+
+32 blocos de 4 palavras.
+
+B) 
+
+i) 
+
+0 = 0, 8, 16, 24
+
+1 = 1, 9, 17, 25
+
+2 = 2, 10, 18, 26
+
+3 = 3, 11, 19, 27
+
+4 = 4, 12, 20, 28
+
+5 = 5, 13, 21, 29
+
+6 = 6, 14, 22, 30
+
+7 = 7, 15, 23, 31
+
+ii)  4 palavras → 2 bits (palavra)
+
+     8 linhas → 2³ → 3 bits (slot)
+
+    2+3 = 5 → 2 bits para a tag.
+
+    TAG  |   SLOT   |  WORD
+
+      2        3         2
+
+iii) Qual é o endereço para as seguintes palavras: 4, 13, 39 e 89.
+     
+     
+palavra |  v.bin   | tag   | slot  |  word 
+   4    | 0000100  |  00   |  001  |   00
+   13   | 0001101  |  00   |  011  |   01
+   39   | 0100111  |  01   |  001  |   11
+   89   | 1011001  |  10   |  110  |   01
+
+
+
+
+C) 
+
+i) Por ser associativo, qualquer bloco pode ser mapeado para qualquer slot, sendo justamente esse o objetivo do mapeamento associativo. Contudo, caso a memória esteja cheia, é necessário usar alguma política de substituição.
+
+ii) 5 (tag) | 2 (word)
+
+iii) 
+ palavra |  v.bin   |   tag    |  word 
+   5     | 0001001  |  00010   |   01
+   11    | 0001011  |  00010   |   11
+   29    | 0011101  |  00111   |   01
+   99    | 1100011  |  11000   |   11
+
+iv)
+  
+palavra    bin      tag   word
+   3     0000011   00000   11
+   7     0000111   00001   11
+  15     0001111   00011   11
+  16     0010000   00100   00
+  17     0010001   00100   01
+  28     0011100   00111   00
+  30     0011110   00111   10
+  56     0111000   01110   00
+  57     0111001   01110   01 
+  58     0111010   01110   10
+  78     1001110   10011   10
+  79     1001111   10011   11
+  20     0010100   00101   00
+  21     0010101   00101   01
+  23     0010111   00101   11
+  98     1100010   11000   10
+  99     1100011   11000   11
+  24     0011000   00110   00 
+  25     0011001   00110   01
+  26     0011010   00110   10
+
+
+
+
+P9) 
+
+                          Caso 1                     Caso 2
+
+                          L1 HIT (C1)               L1 MISS
+                                                     |    |
+                                          (C2+C1) L2 HIT  L2 MISS
+                                                              |
+                                                           MAIN MEMORY
+                                                            (M+C2+C1)
+
+Raciocínio: H1 * C1 + (1 - H1) (H2) (C2 + C1) + (1-H1) (1-H2) (M+C2+C1) 
+
+Considerando A como (Hit_ * Miss_) e M o tempo da Main Memory. 
+
+A1+ (1 - H1) [A2+ (1 -H2) M] = A1 + (1 - H1) A2 + (1-H1) (1-H2) M = 
+HitL1 * MissL1 + (1 – HitL1) * (HitL2 * MissL2 +(1 – HitL2) *MissMain) = 
+
+AMAT = H1 * C1 + (1 - H1) * (H2 * C2) + (1 - H1) (1 - H2) M
+
+
+10) O cache em níveis foi criado considerando o aumento na velocidade dos dispositivos, 
+especialmente no processador. Pela alta demanda, seria necessário um cache de alta 
+velocidade e capacidade, mas pelo custo é preferível desenvolver níveis que diferem 
+na relação tamanho X velocidade. Assim, o L1 é rápido, porém muito pequeno, necessitando 
+do L2, que é maior porém com velocidade menor que L1. O L3, ainda menos utilizado, vem 
+para auxiliar ao processador acessar cada vez menos a memória principal, lenta e com 
+o maior tamanho, aumentando o clock do processo. 
+
+A) O AMAT é afetado, como visto no exercício nove, porque deve considerar as taxas de acerto 
+e erro de cada nível. O caso mais favorável é o Hit no L1, porém, caso erre e esteja no L2, 
+temos Miss L1 e o Hit no L2. Contudo, se não estiver em nenhum dos dois, deve-se ir à Memória 
+Principal e considerar a taxa M. Para o cálculo, que deve considerar todas as possibilidades, 
+há três cenários possíveis. 
+
+B) Acredito que o Smart Cache, da Intel, desenvolvido para multicore, é uma solução viável por 
+dividir a memória cache real entre os núcleos do processador. Com isso, a taxa de falta diminui 
+pois nem todos os núcleos precisam de partes iguais do espaço. Isso permite que um núcleo utilize 
+o cache L2 ou L3 se outros estiverem inativos, além da partilha aumentar a rapidez do processo. 
+
+11) 1000 referências, 80 erros em L1 e 40 erros em L2. 
+
+A) Taxa de falta: 
+
+Miss Rate (L1) →  Taxa de Falhas de L1 = 80/1000 = 0.08 = 8% (Global)
+Miss Rate (L2) → Taxa de Falhas de L2 = 40/1000 = 0.04 = 4% (Global) 
+
+Local Miss Rate (L2) -> 40/80 = 0.50 = 50% 
+
+B) T1 = 1 ciclo, T2 = 2o ciclos, C2 = 200, Acesso = 150%. AMAT?
+
+AMAT = Hit TimeL1 + Miss RateL1 x (Hit Time L2 + Miss RateL2 x Miss Penalty L2)
+AMAT =     1      +    0.08     * (   20   +    0.50    *   200   ) = 10.6 ciclos de clock
+RESPOSTA: 10.6 ciclos de clock
+
+P12)  
+
+- L1 hits in 1 cycle (local miss rate 45%)
+- L2 hits in 10 cycles (local miss rate 30%)
+- L3 hits in 50 cycles (global miss rate 10%)
+- Memória principal hits in 100 cycles (always hits)
+
+(1 + 45%) (10 + 30% * 50) + 10% * 100 
+= 1 + 0.45 (10+0.30*50) + 0.10*100
+= 1 + 0.45*(10+15) + 10 = 1 + 11.25 + 10 = 22.5 ciclos.
+RESPOSTA: 22.5 ciclos. 
+
+P13)
+R - 2^32 bytes → 32 é o tamaho do endereço. Cache com 2k slots → 2028 linhas → 2^11 → 11 slots; 32 bytes → 2^5 → 5 é o índice do byte. 
+
+Assim, 2^11+5 = 2^16 = 65536 → 65 kBytes. O tipo de mapeamento utilizado não influencia no tamanho da cache.
+
+// calcular tamanho da etiqueta, somar capacidade armazenar dado + tamanho da etiqueta:
+    Mapeamento direto:   16 | 11 |  5 
+    Associativo: 27 | 5
+ 
+// Foi dito pelo professor que deveria ser feito isso. 
+
+
+
+
+P15) Diminuir o Miss Penalty é diminuir a espera da CPU, deixando-a menos ociosa. A melhor maneira é o uso de mutil-níveis de cache 
+(sendo o L1 que permite redução do miss penalty e hit time); há também o aumento da largura de banda entre o cache a memória, 
+que permite o acesso paralelo a mais de uma palavra por bloco. Os bancos de memória de leitura/escrita de múltiplas palavras 
+(chamados Memória Interleaved) também reduzem pois o endereço é enviado simultaneamente para os diferentes bancos. 
+
+Algumas técnicas seriam: 
+
+- Blocos de memória buscados durante um miss causam interrupção da execução da CPU, que recomeça quando o bloco é colocado na cache;
+- Early restart: A palara é enviada para a CPU assim que o bloco que contém a palavra for carregado para a cache.
+- Critical Word First: Busca a palavra procurada primeiro e envia para a CPU assim que for carregada.
+
+
+P16) Considere o seguinte código
+
+  for (i=0; i<20; i++)
+    for ( j=0; j< 10; j++)
+      a[i] = a[i]*j;
+
+a) Dê um exemplo de localidade espacial no código.
+
+R- 
+O Princípio da Localidade Espacial diz que há uma probabilidade de acesso maior para dados e instruções em endereços próximos àqueles acessados recentemente.
+Um exemplo disso no código seria o acesso em sequência dos elementos do array *a* no loop (que estão armazenado em sequência na memória).
+
+b) Dê um exemplo de localidade temporal no código.
+
+R-
+O Princípio da Localidade Temporal diz que um dado acessado recentemente tem mais chances de ser usado novamente, do que um dado usado há mais tempo.
+Um exemplo disso no código seria o uso da variável *i* tanto como contador do loop mais externo quanto seu uso no loop interno para acessar os itens do array *a*.
+
+P17) 
+ R - p17) Devido ao tamanho, a matriz e seus dados serão armazenados, assim como o tamanho dos níveis L1 e L2. Ao rodar o programa, como todas as variáveis 
+ se encontram na memória principal, cada valor necessário irá para L2 (por ser um nível mais próximo da memória principal, seu tamanho é maior que L1 (64 bits)) 
+ pois pode armazenar vários valores do tipo double. 
+
+O cache L1 armazenará os resultados das operações entre os dados em L2, que será o valor a ser apresentado. Desta forma, temos: 
+
+a[i][k], b[i][k] e c[i][k] → L2
+
+sum += a[i][k] * b[i][k] → L1
+
+Após cada operação, o valor em L1 passará para L2 e será armazenado em c[i][k], atualizando então na memória principal.
+
+
+P20) Códigos de Detecção e Correção de Erros:
+
+a) Aplique a codificação Hamming para armazenar a seguinte palavra de 8 bits “ 10011010 ”.
+Utilize a tabela abaixo para apresentar a codificação resultante.
+
+|            | 12   | 11   | 10   | 9    | 8    | 7    | 6    | 5    | 4    | 3    | 2    | 1    |
+| ---------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Posição    | 1100 | 1011 | 1010 | 1001 | 1000 | 0111 | 0110 | 0101 | 0100 | 0011 | 0010 | 0001 |
+| Data Bits  | D8   | D7   | D6   | D5   |      | D4   | D3   | D2   |      | D1   |      |      |
+| Check Bits |      |      |      |      | C8   |      |      |      | C4   |      | C2   | C1   |
+| Código     | 1    | 0    | 0    | 1    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 1    |
+               8      8      8      8     *8*     4      4      4     *4*     2     *2*    *1*
+               4      2      2      1             2      2      1             1
+                      1                           1
+                      
+                      
+b) A codificação Hamming foi utilizada para armazenar o seguinte código de 12 bits
+“010101100011”. Verifique se o código está correto, considerando que ele foi criado usando
+a codificação de paridade par de Hamming. Se o código estiver incorreto, apresente o código
+correto e qual é a palavra de dados original.
+
+|            | 12   | 11   | 10   | 9    | 8    | 7    | 6    | 5    | 4    | 3    | 2    | 1    |
+| ---------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Posição    | 1100 | 1011 | 1010 | 1001 | 1000 | 0111 | 0110 | 0101 | 0100 | 0011 | 0010 | 0001 |
+| Data Bits  | D8   | D7   | D6   | D5   |      | D4   | D3   | D2   |      | D1   |      |      |
+| Check Bits |      |      |      |      | C8   |      |      |      | C4   |      | C2   | C1   |
+| Código     | 0    | 1    | 0    | 1    | 0    | 1    | 1    | 0    | 0    | 0    | 1    | 1    |
+               8      8      8      8     *8*     4      4      4     *4*     2     *2*    *1*
+               4      2      2      1             2      2      1             1
+                      1                           1
+
+O código está correto.

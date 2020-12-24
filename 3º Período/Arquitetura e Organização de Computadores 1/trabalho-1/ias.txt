@@ -1,0 +1,204 @@
+# Trabalho 1
+
+Alunos: Lucas Marçal Coutinho, Lucas Mattos Viera e Loredana Romano Devico.
+
+Códigos de Matrícula: 11911BCC012, 11911BCC015 e 11911BCC001 (respectivamente).
+
+## P1
+
+| endereço | conteúdo   |
+| -------- | ---------- |
+| 08A      | 010FA210FB |
+| 08B      | 010FA0F08D |
+| 08C      | 020FA210FB |
+| 08D      |            |
+
+### Conversões
+
+#### 08A
+
+010FA210FB
+010FA ; 210FB
+01 | 0FA ; 21 | 0FB
+00000001 | 0FA ; 00100001 | 0FB
+LOAD M(0FA) ; STOR M(0FB)
+
+#### 08B
+
+010FA0F08D
+010FA ; 0F08D
+01 | 0FA ; 0F | 08D
+00000001 | 0FA ; 00001111 | 08D
+LOAD M(0FA) ; JUMP +M(08D, 0:19)
+
+#### 08C
+
+020FA210FB
+020FA ; 210FB
+02 | 0FA ; 21 | 0FB
+00000010 | 0FA ; 00100001 | 0FB
+LOAD -M(0FA) ; STOR M(0FB)
+
+### Resumindo
+
+08A LOAD M(0FA) ; STOR M(0FB)
+08B LOAD M(0FA) ; JUMP +M(08D, 0:19)
+08C LOAD -M(0FA) ; STOR M(0FB)
+
+### O que acontece quando esse código é rodado
+
+08A Conteúdo de 0FA vai para AC ; Transfere o conteúdo de AC para o endereço 0FB
+08B Conteúdo de 0FA vai para AC ; Se o valor em AC for positivo então salta para a instrução à esquerda do endereço 08D
+08C Conteúdo de 0FA vai invertido para AC ; Transfere o conteúdo de AC para o endereço 0FB
+
+### Comentário sobre a resolução de P1:
+
+O código de instrução é escrito em 10 símbolos, ocupando 40 bits. 
+Para compreender, os primeiros 5 símbolos são uma instrução (de 20 bits) e os últimos 5 formam outra (também de 20 bits). 
+Dentro da instrução, do 0-7 bits é colocado o código da operação (binário ou hexadecimal) e do 8-20 (12 bits) é o endereço. 
+Com isso em mente, o grupo decompôs cada código de instrução até alcançar o OpCode eo Endereço, deixando então a máquina realizar suas fases de execução: 
+Busca de instrução, decodificação, avaliação endereço (ou geração), busca do  operando, execução e armazenamento de resultado.
+
+## P2
+
+### Fragmento 1
+
+000 020110F005   =>  LOAD -M(011) ; JUMP+ M(005,0:19)
+001 090120B010   =>  LOAD MQ,M(012) ; MUL M(010)
+002 0A00021012   =>  LOAD MQ ; STOR M(012)
+003 0101106013   =>  LOAD M(011) ; SUB M(013)
+004 210110D000   =>  STOR M(011) ; JUMP M(000,0:19)
+005 0D00500000   =>  JUMP M(005,0:19)
+
+...
+
+010 0000000005 # X
+011 0000000003 # N
+012 0000000001 # RESULT
+013 0000000001 # CONST
+
+
+### Fragmento 2
+
+000 020110F009   =>  LOAD -M(011) ; JUMP+ M(009,0:19)
+001 010110C013   =>  LOAD M(011) ; DIV M(013)
+002 210140A000   =>  STOR M(014) ; LOAD MQ
+003 2101102014   =>  STOR M(011) ; LOAD -M(014)
+004 1000609012   =>  JUMP+ M(006,20:39) ; LOAD MQ,M(012)
+005 0B0100A000   =>  MUL M(010) ; LOAD MQ
+006 2101209010   =>  STOR M(012) ; LOAD MQ,M(010)
+007 0B0100A000   =>  MUL M(010) ; LOAD MQ
+008 210100D000   =>  STOR M(010) ; JUMP M(000,0:19)
+009 0D00900000   =>  JUMP M(009,0:19)
+
+...
+
+010 0000000002 # X
+011 0000000005 # N
+012 0000000001 # RESULT
+013 0000000002 # DIVISOR 2
+014 0000000001 # RESTO
+
+
+### Análise de desempenho:
+
+Como já dito no próprio enunciado, o fragmento 1 é eficiente, mas pode ser aprimorado. Disto, entendemos que o fragmento 2 entra como uma solução. 
+
+Analisando de forma assertiva, com testes feitos pelo grupo, o fragmento 1 é mais eficiente enquanto n < 4, pois diminui de 1 em 1 devido à condição que percorre e decresce n, sendo útil para valores pequenos. Porém, a partir desse valor, o fragmento 2 realiza as operações de forma mais rápida, dividindo o expoente por dois e utilizando de mais de uma condição (while e if) para realizar as operações, o que comprova sua eficiência no processo.
+
+## P3
+
+000 020240F00F   =>  LOAD -M(024) ; JUMP+ M(00F,0:19)
+001 011000C025   =>  LOAD M(100) ; DIV M(025)
+002 2102602026   =>  STOR M(026) ; LOAD -M(026)
+003 0F00701100   =>  JUMP+ M(007,0:19) ; LOAD M(100)
+004 2112001022   =>  STOR M(120) ; LOAD M(022)
+005 0502321022   =>  ADD M(023) ; STOR M(022)
+006 120040D00A   =>  STOR M(004,8:19) ; JUMP M(00A,0:19)
+007 0110021110   =>  LOAD M(100) ; STOR M(110)
+008 0102105023   =>  LOAD M(021) ; ADD M(023)
+009 2102113007   =>  STOR M(021) ; STOR M(007,28:39)
+00A 0102005023   =>  LOAD M(020) ; ADD M(023)
+00B 2102012001   =>  STOR M(020) ; STOR M(001,8:19)
+00C 1300312007   =>  STOR M(003,28:39) ; STOR M(007,8:19)
+00D 0102406023   =>  LOAD M(024) ; SUB M(023)
+00E 210240D000   =>  STOR M(024) ; JUMP M(000,0:19)
+00F 0D00F00000   =>  JUMP M(00F,0:19)
+
+...
+
+020 0000000100   =>  # POS ATUAL VET
+021 0000000110   =>  # POS ATUAL PARES
+022 0000000120   =>  # POS ATUAL IMPARES
+023 0000000001   =>  # CONST 1
+024 000000000A   =>  # TAM VETOR
+025 0000000002   =>  # DIVISOR 2
+026 0000000000   =>  # RESTO
+
+...
+
+100 0000000001   =>  Início do vetor de entrada
+101 0000000002
+102 0000000003
+103 0000000004
+104 0000000005
+105 0000000006
+106 0000000007
+107 0000000008
+108 0000000009
+109 000000000A
+
+...
+
+110 0000000000   =>  Início do vetor "pares"
+111 0000000000
+112 0000000000
+113 0000000000
+114 0000000000
+115 0000000000
+116 0000000000
+117 0000000000
+118 0000000000
+119 0000000000
+
+...
+
+120 0000000000   =>  Início do vetor "impares"
+121 0000000000
+122 0000000000
+123 0000000000
+124 0000000000
+125 0000000000
+126 0000000000
+127 0000000000
+128 0000000000
+129 0000000000
+
+### Descrição do código:
+
+000 Carrega o negativo do contador (número de repetições do loop, igual ao tamanho do vetor, em 024) no AC; se o valor em AC for não negativo (0), pula para a posição 00F, primeira instrução.
+001 Carrega a posição atual do vetor de entrada (inicializa em 100) para o AC; divide o valor no AC por 2 (armazenado em 025).
+002 Guarda o valor de AC (resto) na posição 026 da memória; carrega o negativo do valor na posição 026 para o AC.
+003 Se o valor em AC for não negativo (resto 0, valor par), pula pra posição 007, primeira instrução; carrega o valor na posição atual do vetor de entrada para o AC.
+004 Guarda o valor de AC na posição atual no vetor "impares" (inicializada em 120); carrega o valor em 022 (marcador da posição atual em "impares") para o AC.
+005 Soma o valor no AC com 1 (armazenado em 023); guarda o valor de AC em 022 (posição atual no vetor "impares" aumenta em 1).
+006 Guarda o valor de AC em 004, primeira instrução (atualiza a posição no vetor "impares"); pula para a posição 00A, primeira instrução.
+007 Carrega o valor na posição atual do vetor de entrada para o AC; guarda o valor de AC na posição atual no vetor "pares" (inicializada em 110).
+008 Carrega o valor em 021 (marcador da posição atual em "pares") para o AC; soma o valor no AC com 1 (armazenado em 023).
+009 Guarda o valor de AC em 021 (posição atual no vetor "pares" aumenta em 1); guarda o valor de AC em 007, segunda instrução (atualiza a posição no vetor "pares").
+00A Carrega o valor em 020 (marcador da posição atual no vetor de entrada) para o AC; soma o valor no AC com 1 (armazenado em 023).
+00B Guarda o valor de AC em 020 (posição atual no vetor de entrada aumenta em 1); guarda o valor de AC em 001, primeira instrução (atualiza a posição no vetor de entrada).
+00C Guarda o valor de AC em 003, segunda instrução (atualiza a posição no vetor de entrada); guarda o valor de AC em 007, primeira instrução (atualiza a posição no vetor de entrada).
+00D Carrega o contador (armazenado em 024) para o AC; diminui o valor no AC em 1 (armazenado em 023).
+00E Guarda o valor de AC em 024 (contador diminui em 1); pula para a posição 000, primeira instrução (início do código).
+00F Pula para a posição 00F, primeira instrução (fim do código).
+
+### Comentário sobre a resolução de P3: 
+
+Neste exercício, após a verificação inicial do contador não ser zero (se for zero, acabou o vetor e finalizou o percorrimento do código), o valor é carregado para o AC e ocorre a análise do resto na divisão por 2. Caso seja 0, é par, e seguirá para o tratamento dos valores pares; senão, é ímpar e seguirá na sequência:
+
+Guardará o valor ímpar na posição atual do vetor “ímpares” (em nossa memória, destinamos três espaços para acompanhar a posição de cada vetor - o inicial, o de pares e ímpares) e atualizará o valor na posição atual do vetor, que aumentará em um (percorrendo o vetor), realizando a operação seguinte. 
+
+Quando for par, a posição atual do vetor “pares” receberá o número, atualizando o valor e acrescendo 1 no AC para percorrer o vetor.
+
+Ao final do ciclo, o contador também é carregado para o AC e é decrescido 1, retornando o comando para a primeira instrução.  

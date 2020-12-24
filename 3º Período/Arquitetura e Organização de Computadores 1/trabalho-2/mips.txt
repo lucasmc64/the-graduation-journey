@@ -1,0 +1,528 @@
+# Trabalho 2
+
+Alunos: Lucas Marçal Coutinho, Lucas Mattos Vieira e Loredana Romano Devico.
+
+Códigos de Matrícula: 11911BCC012, 11911BCC015 e 11911BCC001 (respectivamente).
+
+# Questões
+
+P1) Apresente uma razão para que o processador MIPS não disponibilize uma instrução que realize subtração com valor imediato?
+
+- Para subtrairmos com um valor imediato, basta efetuarmos uma soma utilizando uma constante negativa como valor imediato. 
+  Não é necessária uma instrução de subtração com valor imediato.
+
+
+P2) Considere as declarações de uma variável string (str) realizadas conforme as sentenças abaixo.
+Explique de forma objetiva como o espaço de endereçamento de memória será configurado, para cada uma das declarações.
+
+a) static char str[] = "thing";
+b) char str[] = "thing";
+c) char *str = malloc(6); strcpy(str, "thing");
+
+R-
+
+Cada caractere da string ocupa 1 byte e ao final deve-se ter um byte adicional para o caractere terminador da string '\0'.
+Isso independe de qualquer uma das diferentes representações mostradas acima.
+
+a) 
+static torna a variável persistente, mesmo quando sai do escopo. 
+É como um global, mas sua visibilidade se limita ao bloco em que foi definido. 
+Por exemplo, uma variável definida dentro de uma função normalmente perde seu valor e deixa de existir assim que a função retorna. 
+Definindo essa variável como estática, aloca-se um local de memória permanente para ela e retem seu valor entre as chamadas para a função.
+Neste caso, a quantidade de caracteres de armazenamento é calculada automaticamente, de forma a ter a dimensão exata para conter a string que está sendo atribuída, de forma que caibam todos os caracteres e o caractere de fim de string '\0'.
+Porém, em armazenamento estático. 
+Variáveis estáticas são liberadas automaticamente pelo programa após a finalização do seu escopo.
+
+b)
+Nesse caso, a variável será visível apenas dentro do bloco na qual foi definida.
+A sua quantidade de caracteres de armazenamento também é calculada automaticamente como na representação da letra A (pois não foi definido um valor fixo entre os colchetes).
+Porém, em armazenamento estático.
+Variáveis estáticas são liberadas automaticamente pelo programa após a finalização do seu escopo.
+
+c)
+Aqui temos uma alocação dinâmica de 6 bytes (o suficiente para caber os 5 caracteres da palavra "thing" e o '\0').
+A variável str ainda será um vetor de caracteres (string), o que quer dizer que str ainda é um ponteiro para o primeiro elemento da string.
+Porém, diferente das variáveis estáticas definidas durante a escrita do programa, as variáveis alocadas dinâmicamente não são liberadas automaticamente pelo programa após a finalização do seu escopo.
+Assim, se for necessário, pode ser usada em outros escopos, em outras funções.
+Mas, convém dar um free(str) quando não a estiver usando mais, para liberar a memória.
+
+
+P3) Modos de Endereçamento do MIPS:
+Temos vários modos de endereçamento para o acesso à memória (imediato não listados):
+
+•endereçamento base deslocamento.
+•endereçamento relativo ao PC. 
+•endereçamento pseudo-direto.
+•endereçamento por registrador. 
+
+a) Uma determinada solução de programação em MIPS assembly necessita de uma instrução para executar um salto para um endereço 
+2^(28) + 4 bytes distante da atual posição do PC. Como você faria para resolver?
+Considere que o endereço de destino será conhecido em tempo de compilação.
+
+    jal GetIP
+    ori $t0, $zero, 0x10000004
+    addi $t0, $t0, $v0
+    jalr $t0
+
+    ...
+
+    GetIP:
+      move $v0, $ra
+      jr $ra
+
+b) Uma determinada solução de programação em MIPS assembly necessita de uma instrução para executar um desvio para um endereço 
+2^(17) + 4 bytes distante da atual posição do PC, quando $t0 é igual a 0. 
+Considere que não saltaremos para um endereço superior a 228 bytes. Como você faria para resolver?
+
+    beq $t0, $zero, end
+    jal GetIP
+    ori $t1, $zero, 0x20004
+    addi $t1, $t1, $v0
+
+    ori $t3, $zero, 228
+    sgt $t4, $t1, $t3
+    bne $t4, $zero, end
+
+    jalr $t1
+    
+    end:
+      li 	$v0, 10
+	    syscall
+      
+    ...
+
+    GetIP:
+      move $v0, $ra
+      jr $ra
+
+
+P4) Considere as pseudoinstruções abaixo. Elabore em linguagem de montagem (assembly) uma sequência mínima de instruções MIPS nativas,  
+para que se obtenha o mesmo efeito. Utilize o registrador $at como um registrador temporário.
+
+a)addiu $s1, $s2, imm32	# imm32 is a 32-bit immediate
+
+	ori 	$s0, $zero, imm32
+    	addu 	$s1, $s2, $s0
+
+b)bge $s1, imm32, Label	# imm32 is a 32-bit immediate
+
+    	ori 	$s0, $zero, imm32
+    	sgt 	$at, $s0, $s1
+    	beq 	$at, $zero, Label
+
+c)rol $s1, $s2, 5      	# rol = rotate left $s2 by 5 bits
+
+    	srl 	$t1, $s2, 5 	#shift original word 5 bit to the right
+    	sll 	$t2, $s2, 27 	#shift original word 27 bits to the left
+    	or 	$s1, $t1, $t2 	#Combine two fragments of words and place result in source register
+
+d)ble $t3, $t5, L      ---->    # if ($t3<=$t5) goto L
+
+    	slt 	$at, $t5, $t3
+    	beq 	$at, $zero, L
+    
+e)bgt $t4, $t5, L      ---->    # if ($t4>$t5)  goto L
+
+    	slt 	$at, $t5, $t4
+    	bne 	$at, $zero, L
+
+
+P5) Convenções
+
+a) Como deve o registrador $sp ser utilizado? Quando é que devemos adicionar ou subtrair $sp?
+
+Stack é usada para:
+- Salvar e restaurar registradores usados em procedimentos;
+- Armazenar variáveis locais de funções ou procedimentos.
+
+O ponteiro da stack está no registro $sp ($sp contém o endereço do topo da pilha).
+
+Devemos subtrair $sp quando queremos adicionar um novo elemento na stack e fazer o oposto (adicionar) quando queremos exluir.
+
+Exemplo:
+
+   addi	$sp, $sp, -12 	# "Adicionando" espaço pra 3 palavras na stack
+   sw 	$t1, 8($sp) 	# Guardando o conteúdo do registrador $t1 nos bytes 8 a 11 da stack
+   sw 	$t0, 4($sp) 	# Guardando o conteúdo do registrador $t0 nos bytes 4 a 7 da stack
+   sw 	$s0, 0($sp) 	# Guardando o conteúdo do registrador $s0 nos bytes 0 a 3 da stack
+
+   lw 	$s0, 0($sp) 	# Restaurando o valor do registrador $s0
+   lw 	$t0, 4($sp) 	# Restaurando o valor do registrador $t0
+   lw 	$t1, 8($sp) 	# Restaurando o valor do registrador $t1
+   addi $sp, $sp, 12 	# "Removendo" espaço pra 3 palavras na stack
+
+b) Quais registradores necessitam ser salvos ou restaurados antes de executarmos a instrução jr para retornar
+de uma função?
+
+Os resultados da função devem ser salvos nos registradores $v0 e $v1 (caso existam).
+Além disso a função deve restaurar todos os registros que foram salvos na entrada: carregar valor de $ra, $fp, $s0 a $s7 caso tiverem sido salvos no stack frame.
+E, claro, liberar o stack frame: $sp = $sp + n (se n bytes forem alocados para o frame da pilha).
+
+c) Quais registradores necessitam ser salvos antes de executar a instrução JAL?
+
+Antes de tudo os argumentos (caso hajam) devem ser salvos nos registradores $a0 a $a3 e, caso hajam mais, deverão ser salvos na stack.
+Salve os registradores $a0 a $a3 e $t0 a $t9 no stack frame se necessário, pois a função que será chamada pode modificar os valores nesses registradores.
+
+d) Como podemos passar parâmetros para funções?
+
+Os primeiros 4 parâmetros devem ser salvos nos registradores $a0, $a1, $a2 e $a3.
+Caso seja necessário passar mais parâmetros, estes devem ser armazenados na stack.
+
+e) O que devemos fazer se houver a necessidade de passar mais do que quatro parâmetros para uma função? Como são retornados valores pelas funções?
+
+Se necessário passar mais do que 4 parâmetros, estes devem ser armazenados na stack.
+Existem 2 registrados específicos para o armazenar o retorno/resultado de funções: $v0 e $v1.
+Caso seja necessário retornar mais do que 2 resultados, estes devem ser armazenados na stack também.
+
+P6) Traduza o fragmento de código C abaixo para MIPS assembly. Considere que os arrays inteiros a e b têm seus endereços base nos registradores
+$a0 e $a1, respectivamente. O valor de n está no registrador $a2.
+ 
+ for (i=0; i<n; i++) {
+      if (i > 2) {
+          a[i] = a[i-2] + a[i-1] + b[i];
+      } else {
+          a[i] = b[i];
+      }
+ }
+ 
+ -----------
+	
+# $a0 = &a[0], $a1= &b[0], $a2 = n
+
+	.text
+
+for:	addi	$t0, $0, 0	# i <- 0
+loop:	bge	$t0, $a2, end	# if (i >= n) go to end
+	sll	$t1, $t0, 2	# i*4
+	add	$t2, $t1, $a0	# &a[0] + i*4
+	add	$t1, $t1, $a1	# &b[0] + i*4
+	lw	$t1, 0($t1)	# $t1 <- arrayB[i]
+		
+if:	ble	$t0, 2, else	# if (i <= 2) go to else
+	lw	$t4, -4($t2) 	# $t4 <- arrayA[i-1]
+	lw	$t3, -8($t2)	# $t3 <- arrayA[i-2]
+	add	$t3, $t3, $t4	# $t3 <- arrayA[i-2] + arrayA[i-1]
+	add	$t1, $t1, $t3	# $t1 <- arrayA[i-2] + arrayA[i-1] + arrayB[i]
+	sw	$t1, 0($t2)	# arrayA[i] <- arrayA[i-2] + arrayA[i-1] + arrayB[i]
+	j	endElse
+	
+else:	sw	$t1, 0($t2)	# arrayA[i] <- arrayB[i]
+
+endElse:	
+	addi	$t0, $t0, 1	# i++
+	j	loop
+	
+end: 	...
+
+ 
+P7) Comente o código MIPS a seguir e descreva em uma sentença qual é a atividade que ele realiza. Assuma que $a0 é utilizado para a entrada 
+e inicialmente contém n, um inteiro positivo. Assuma que $v0 é utilizado para a saída.
+ 
+ begin:   addi  $t0, $zero, 0       # $t0 = 0
+          addi  $t1, $zero, 1       # $t1 = 1
+ loop:    slt   $t2, $a0, $t1       # $t2 = (n < $t1) ? 1 : 0
+          bne   $t2, $zero, finish  # if $t2 != 0 then branch finish
+          add   $t0, $t0, $t1       # $t0 = $t0 + $t1
+          addi  $t1, $t1, 2         # $t1 = $t1 + 2
+          j 	loop                # jump to loop
+ finish:  add 	$v0, $t0, $zero     # $v0 = $t0
+ 
+- O código acima é uma função que retorna (n/2)^{2} quando n é par, e (n+1/2)^{2} quando n é ímpar.
+
+ 
+P8) Converta o seguinte fragmento de código, escrito em linguagem C, para a linguagem MIPS assembly. Considere que as variáveis i, j, x e y 
+foram atribuídas aos registradores $t0, $t1, $a1 e $a2 respectivamente. Considere que o endereço base do array foi guardado no registrador $a0.
+
+a)
+  int i = 0;
+  int j = -1;
+  while(i < 10){
+        if((i & 0x0001)==1) //se i for ímpar, adicione-o ao j
+              j += i;
+        i++;
+  }
+
+  	addi 	$t0, $0, 0x0000 	#i = 0
+  	addi 	$t1, $0, 0xFFFF 	#j = -1
+loop: 
+    	slti 	$t2, $t0, 0x000A
+  	beq 	$0, $t2, end 		#vai para o final se i chegar a 10 ($t2==0)
+  	andi 	$t3, $t0, 0x0001
+  	beq 	$t3, $0, noif 		#vai para noif se i é ímpar
+  	add 	$t1, $t1, $t0 		#se i é par, soma 1 ao j
+noif:
+    	addi 	$t0, $t0, 0x0001 	#incrementa i
+  	j 	loop
+end:
+    	li 	$v0, 10
+	syscall
+  
+b)
+  int fun(char [] a, int x, int y){
+    if (a[x] > a[y]){
+      a[x+1] = a[y];
+      return a[x] + a[y];}
+    else{
+      return a[x] -a[y];}
+  }
+  
+fun:
+  	sll 	$t0, $a1, 2 	# $t0 = x * 4
+  	sll 	$t1, $a2, 2 	# $t0 = y * 4
+  	add 	$t0, $t0, $a0 	# $t0 = &a[x]
+  	add 	$t1, $t1, $a0 	# $t1 = &a[y]
+  	lw 	$t0, 0($t0) 	# carrega o valor de a[x] dentro $t0
+  	lw 	$t1, 0($t1) 	# carrega o valor de a[y] dentro $t1
+  	sub 	$t2, $t0, $t1 	# $t2 = x - y
+  	blez 	$t2, else 	# pula se a[x]<=a[y]
+  	addi 	$a1, $a1, 1 	# $a1 = x + 1
+  	sll 	$t3, $a1, 2 	# $t3 = (x + 1) * 4
+  	add 	$t3, $t3, $a0 	# $t3 = &a[x + 1]
+  	sw 	$t3, $t1 	# a[x + 1] = a[y]
+  	add 	$v0, $t1, $t0 	# a[x] + a[y]
+  	j 	end
+else:
+  	sub 	$v0, $t0, $t1 	# a[x] - a[y]
+end:
+  	jr 	$ra 		# retorna pro main
+  
+P9) O programa a seguir tenta copiar palavras de um endereço no registrador $a1, contando o número de palavras copiadas no registrador $v0. 
+O programa para de copiar quando encontra uma palavra igual a 0. Você não tem que preservar o conteúdo dos registradores $v1, $a0 e $a1. 
+Esta palavra de terminação deve ser copiada, mas não contada.
+
+loop:	lw 	$v1, 0($a0)       	# read next word from source
+        addi 	$v0, $v0, 1      	# increment count words copied
+        sw 	$v1, 0($a1)        	# write to destination
+        addi 	$a0, $a0, 1      	# advance pointer to next source
+        addi 	$a1, $a1, 1      	# advance pointer to next dest
+        bne 	$v1, $zero, loop	# loop if word copied != zero
+          
+Existem múltiplos erros neste programa MIPS; conserte-os e torne este programa bug-free. O modo mais fácil de escrever programas MIPS é utilizar
+o simulador MARS disponível no sítio da disciplina. Você pode efetuar o download do simulador através dos links na página do curso.
+
+R-
+
+Bug 1: O contador ($v0) não é inicializado em -1 para evitar a contagem de outros valores que possam já existir em $v0 e da palavra 0 no final.
+Bug 2: Na hora de avançar o ponteiro para a próxima palavra a ser lida em vez de pular os 4 bytes da última palavra lida, estava pulando apenas 1 byte. 
+Bug 3: Na hora de avançar o ponteiro para a próxima posição de destino em vez de pular os 4 bytes da última palavra lida, estava pulando apenas 1 byte. 
+
+        addi	$v0, $zero, -1		# initialize count
+loop:	lw 	$v1, 0($a0)     	# read next word from source
+	addi 	$v0, $v0, 1      	# increment count words copied
+        sw 	$v1, 0($a1)        	# write to destination
+        addi 	$a0, $a0, 4      	# advance pointer to next source
+        addi 	$a1, $a1, 4      	# advance pointer to next dest
+        bne 	$v1, $zero, loop	# loop if word copied != zero
+
+P10) Considere o seguinte fragmento de código C:
+
+    for (i=0;i<=100;i=i+1) {
+          a[i] = b[i] + c;
+    }
+    
+Assuma que a e b são arrays de inteiros (.word) e que o endereço base de a está em $a0 e que o endereço base de b está em $a1. O registrador 
+$t0 está associado à variável i e o registrador $s0 à variável c. Escreva o código utilizando o conjunto de instruções MIPS. Quantas instruções
+são executadas durante a execução deste código? Quantas referências de dados na memória serão feitas durante a execução?
+
+	.text
+for:	
+	addi	$t0, $0, 0		# i = 0
+loop:	bgt	$t0, 100, endFor	# if (i > 100) leave for
+	sll	$t1, $t1, 2		# i*4
+	add	$t2, $t1, $a1		# $t2 = &b[i]
+	lw	$t2, 0($t2)		# $t2 = b[i]
+	add	$t2, $t2, $s0		# $t2 = b[i] + c
+	add	$t1, $t1, $a0		# $t1 = &a[i]
+	sw	$t2, 0($t1)		# a[i] = b[i] + c
+	addi	$t0, $t0, 1		# i = i + 1
+	j	loop			# jump to loop
+	
+endFor: 
+	...
+	
+- São executadas 1012 instruções durante o código; a inicialização de i (1), mais 101*10 dentro do loop - bgt compara duas vezes (1010), mais o
+branch, quando bge encontra a condição verdadeira (1).
+- Durante a execução, serão feitas 202 referências de dados na memória, metade para a
+escrita de a[i] e, metade para a leitura de b[i].
+
+
+P11) Converta o fragmento de código abaixo, escrito em linguagem C, para a linguagem do MIPS assembly. 
+
+    /** Returns the number of bytes in S before, but not counting, the null 
+    terminator. */
+    size_t string_length(char *s) {
+        char *s2 = s;
+        while(*s2++); 
+        return s2 -s -1; 
+    }
+
+---------
+	
+	.text
+
+legth:	move	$t0, $s0	# *s2 = s
+while:	lb	$t1, 0($t0)	# load byte into $t1
+	beqz	$t1, endW	# stops when it finds null terminator 
+	addi	$t0, $t0, 1	# s2 = s2 + 1
+	j 	while
+	
+endW:	sub	$v0, $t0, $s0	# $v0 = s2 - s (o codigo em MIPS assembly não executa 
+				# o loop após encontrar null, portanto não é necessário subtrair 1)
+	jr	$ra		# return
+	
+	
+P12) Converta o fragmento de código abaixo, escrito em linguagem C, para a linguagem do MIPS assembly. 
+
+    /** Converts the string S to lowercase */
+    void string_to_lowercase(char *s) {
+        for(char c = *s; (c=*s) != '\0'; s++) { 
+            if(c >= 'A' && c <= 'Z') {
+                *s += 'a' - 'A'; 
+            }
+        }
+    }
+    
+----------
+
+	.data
+a:	.word		'a'
+A:	.word		'A'
+Z:	.word		'Z'
+	
+	...
+	
+# $s0 <- *s
+	.text
+ToLower:
+	la	$t0, a
+	lb	$t0, 0($t0) 	# $t0 = 'a'
+	la	$t1, A
+	lb	$t1, 0($t1)	# $t1 = 'A'
+	sub	$t0, $t0, $t1	# $t0 = 'a' - 'A'
+	la	$t2, Z
+	lb	$t2, 0($t2)	# $t2 = 'Z'
+	
+for:	lb	$t3, 0($s0)	# char c = *s
+	beqz	$t3, endFor	# if (c == '\0') leave for
+	slt	$t4, $t3, $t1	# $t4 = (c < 'A') ? 1 : 0
+	sgt	$t5, $t3, $t2	# $t5 = (c > 'Z') ? 1 : 0
+	or	$t4, $t4, $t5	# $t4 = ($t4 || $t5)
+	beq	$t4, 1, endIf	# if ((c < 'A') || (c > 'Z')) leave if
+	add	$t3, $t3, $t0	# c += 'a' - 'A'
+	sb	$t3, 0($s0)	# *s += 'a' - 'A'
+
+endIf:	addi	$s0, $s0, 1	# s++
+	j	for		# jump to for
+	
+endFor:	jr	$ra		# end void function
+
+    
+P13) Converta o fragmento de código abaixo, escrito em linguagem C, para a linguagem do MIPS assembly. O fragmento calcula a soma de números 
+de 0 a N. Considere que $s0 mantém N (N>=0), $s1 mantém a soma. Transforme a solução em estrutura de função.
+
+    int soma = 0
+    if (N == 0) return 0;
+    while (N != 0) {
+        soma += N
+        N--;
+    }
+    return soma;
+    
+-----------
+
+	.text
+somaN:	move	$s1, $0		# soma = 0
+	bnez	$s0, while	# if (N != 0) go to while
+	move	$v0, $0		# $v0 = 0
+	jr	$ra		# return 0
+	
+while:	beqz	$s0, end	# if (N == 0) go to end
+	add	$s1, $s1, $s0	# soma += N
+	subi	$s0, $s0, 1	# N--
+	j	while		# jump to while
+
+end:	move	$v0, $s1	# $v0 = soma
+	jr	$ra		# return soma
+    
+    
+P14) Escreva em linguagem MIPS assembly um programa denominado contadígitos que leia do dispositivo padrão de entrada (teclado) um valor 
+inteiro n. O programa deve imprimir na tela de saída o valor de n e o número de algarismos que possui.
+
+- "contadigitos.asm" em anexo.
+
+P15) Escreva, em linguagem Assembly do MIPS, uma função denominada amplitude que receba uma relação de números armazenados em um vetor v de
+n elementos reais e, retorne como resposta a sua amplitude. A amplitude de uma relação de números reais é a diferença entre o maior e o menor 
+valores da relação. Por exemplo, a amplitude da relação {5, 7, 15, 2, 23 21, 3, 6} é 23 - 2 = 21.
+
+# $a0 = &v[0], $a1 = n
+
+	.text
+amplitude:		
+	addi	$t0, $0, 0		# i = 0
+	lw	$t2, 0($a0)		# maior = v[0]
+	lw	$t3, 0($a0)		# menor = v[0]
+	addi	$t0, $t0, 1		# i = 1 (o primeiro elemento de v não precisa ser analisado novamente) 
+	
+loop:	bge	$t0, $a1, end		# if (i >= n) go to end
+	sll	$t1, $t0, 2		# i*4
+	add	$t4, $t1, $a0		# &v[i] = &v[0] + i*4
+	lw	$t4, 0($t4)		# $t4 = v[i]
+if1:	ble	$t4, $t2, if2		# if (v[i] <= maior) go to if2
+	move	$t2, $t4		# maior = v[i]
+if2:	bge	$t4, $t3, endIfs	# if (v[i] >= menor) go to endIfs
+	move	$t3, $t4		# menor = v[i]
+endIfs:	addi	$t0, $t0, 1		# i++
+	j	loop			# jump to loop
+	
+end:	sub	$v0, $t2, $t3		# amp = maior - menor
+	jr	$ra			# return $v0
+
+P16) Converta o fragmento de código abaixo, escrito em linguagem C, para a linguagem do MIPS assembly. 
+
+    // Nth_Fibonacci(n):
+    // $s0 -> n, $s1 -> fib
+    // $t0 -> i, $t1 -> j
+    // Assume fib, i, j are these values
+    int fib = 1, i = 1, j = 1;
+    if (n==0) return 0;
+    else if (n==1) return 1;
+    n -= 2;
+    while (n != 0) {
+      fib = i + j;
+      j = i;
+      i = fib;
+      n--;
+    }
+    return fib;
+ 
+-------------
+
+# $s0 -> n
+	.text
+	
+fib:	addi	$s1, $0, 1		# fib = 1
+	addi	$t0, $0, 1		# i = 1
+	addi	$t1, $0, 1		# j = 1
+	
+if:	bne	$s0, $0, else		# if n != 0 go to else
+	move	$v0, $s0		# $v0 = n
+	jr 	$ra			# return 0
+	
+else:	bne	$s0, 1, endElse		# if n != 1 go to endElse
+	move	$v0, $s0		# $v0 = n
+	jr	$ra			# return 1
+
+endElse:
+	addi	$s0, $s0, -2		# n = n - 2
+	
+while:	beq	$s0, $0, endWhile	# if n == 0 go to endWhile
+	add	$s1, $t0, $t1		# fib = i + j
+	move	$t1, $t0		# j = i
+	move	$t0, $s1		# i = fib
+	addi	$s0, $s0, -1		# n--
+	j	while
+	
+endWhile:
+	move	$v0, $s1		# $v0 = fib
+	jr	$ra			# return fib
+	

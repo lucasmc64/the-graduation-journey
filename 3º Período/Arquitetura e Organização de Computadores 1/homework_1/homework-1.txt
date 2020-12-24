@@ -1,0 +1,433 @@
+# Homework 1
+
+Alunos: Lucas Marçal Coutinho, Lucas Mattos Viera e Loredana Romano Devico.
+
+Códigos de Matrícula: 11911BCC012, 11911BCC015 e 11911BCC001 (respectivamente).
+
+# Questões
+
+P1) Considere a seguinte operação sobre uma palavra binária. Comece pelo bit menos significativo. Copie
+todos os bits que são iguais a zero, até que seja encontrado o primeiro bit diferente de zero, e copie
+também esse bit. Então, faça o complemento booleano de cada bit daí por diante. Qual é o resultado?
+
+R- A operação descrita resulta no mesmo valor proveniente do cálculo do complemento de 2 sobre a mesma palavra binária.
+
+
+P2) Dados x=0110 e y=1001, na notação complemento-de-dois (isto é, x=6 e y=-7), calcule o resultado de
+p=x*y usando o algoritmo de Booth.
+
+R-
+
+A = 0110 0000 0 (Adição)
+S = 1010 0000 0 (Subtração)
+P = 0000 1001 0 (Produto)
+
+1ª volta no loop
+P = 1010 1001 0 # Os últimos dois bits são 10. P = P + S.
+P = 1101 0100 1 # Um deslocamento a direita.
+
+2ª volta no loop
+P = 0011 0100 1 # Os últimos dois bits são 01. P = P + A.
+P = 0001 1010 0 # Um deslocamento a direita.
+
+3ª volta no loop
+P = 0001 1010 0 # Os últimos dois bits são 00. Não fazer nada.
+P = 0000 1101 0 # Um deslocamento a direita.
+
+4ª volta no loop
+P = 1010 1101 0 # Os últimos dois bits são 10. P = P + S.
+P = 1101 0110 1 # Um deslocamento a direita.
+
+Resultado: 1101 0110 (6 * (-7) = -42)
+
+
+P3) Dados x=1001 e y=0010, na notação complemento-de-dois (isto é, x=-7 e y=2), calcule o resultado de
+p=x/y usando o algoritmo de divisão binária expandida.
+
+R-
+
+dividendo x = 1001
+divisor y = 0010
+
+Expande-se o dividendo (1001 -> 1111 1001) e guarda em A e Q, guarda o complemento de dois do divisor (1110) em M.
+
+    A        Q
+    
+  1111      1001  -> Valor inicial
+  
+  1111      0010  -> Left shift
+  1110          ] Usa-se o complemento de 2 em M para subtrair de A
+  0001          ] 
+  0001      0011  -> A não negativo, Q0 recebe 1
+  
+  0010      0110  -> Left shift
+  1110          ] Usa-se o complemento de 2 em M para subtrair de A
+  0000          ]
+  0000      0111  -> A não negativo, Q0 recebe 1
+  
+  0000      1110  -> Left shift
+  1110          ] Usa-se o complemento de 2 em M para subtrair de A
+  1110          ]
+  0000      1110  -> A negativo é restaurado, Q0 recebe 0
+  
+  0001      1100  -> Left shift
+  1110          ] Usa-se o complemento de 2 em M para subtrair de A
+  1111          ]
+  0001      1100  -> A negativo é restaurado, Q0 recebe 0
+  
+Não há mais bits a serem analizados em Q, assim temos em Q o quociente 1100 (-4), e em A temos o resto 0001 (1).
+Assim p = -4, com resto 1.
+  
+  
+P4) Mostre a representação binária no padrão IEEE 754 para o número em ponto flutuante em precisão
+simples e dupla:
+a) 289,45dec
+b) 0,23dec
+c) -1/3
+
+Resoluções:
+
+a) 289,45 → 100100001.011100110011...
+
+→ Simples: 
+
+SINAL (1 bit)  |     E + BIAS  (8 bits) |      Mantissa (23 bits)
+
+    0                       135             00100001011100110011001
+
+    0                    10000111           00100001011100110011001
+
+RESPOSTA:  0100 0011 1001 0000 1011 1001 1001 1001
+RESPOSTA ARREDONDADA: 0100 0011 1001 0000 1011 1001 1001 1010
+
+→ Dupla: 
+
+SINAL (1 bit)  |   E + BIAS  (11 bits) |      Mantissa (52 bits)
+
+   0                    1031               0010 0001 0111 0011 0011 0011 0011 0011 0011 0011 0011 0011 0011
+
+   0                 10000000111           0010 0001 0111 0011 0011 0011 0011 0011 0011 0011 0011 0011 0011
+
+RESPOSTA:  0100 0000 0111 0010 0001 0111 0011 0011 0011 0011 0011 0011 0011 0011 0011 0011   
+
+b) 0.23 → 0011101011100001010001...
+
+→ Simples: 
+
+SINAL (1 bit)  |     E + BIAS  (8 bits) |    Mantissa (23 bits)
+
+    0                      124              11010111000010100011110
+
+    0                    01111100           11010111000010100011110           
+
+RESPOSTA: 0011 1110 0110 1011 1000 0101 0001 1110
+RESPOSTA ARREDONDADA: 0011 1110 0110 1011 1000 0101 0001 1111
+
+→ Dupla: 
+
+SINAL (1bit)  |   E + BIAS  (11 bits) |    Mantissa (52 bits)
+
+   0                   1020              1101 0111 0000 1010 0011 1101 0111 0000 1010 0011 1010 1110
+
+   0                01111111100          1101 0111 0000 1010 0011 1101 0111 0000 1010 0011 1010 1110
+
+RESPOSTA: 0011 1111 1100 1101 0111 0000 1010 0011 1101 0111 0000 1010 0011 1101 0111 0000
+
+c) -1/3 → 010101010101010101010...
+
+→ Simples: 
+
+SINAL (1bit)  |  E + BIAS  (8bits) |      Mantissa (23 bits)
+
+    1                 125               01010101010101010101010
+
+    1               01111101            01010101010101010101010           
+
+RESPOSTA: 1011 1110 1010 1010 1010 1010 1010 1010
+RESPOSTA ARREDONDADA: 1011 1110 1010 1010 1010 1010 1010 1011
+
+→ Dupla: 
+
+SINAL (1bit)  |  E + BIAS  (11 bits) |    Mantissa (52 bits)
+
+     1                 1021               0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101
+
+     1              01111111101           0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101
+
+RESPOSTA: 1011 1111 1101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101 0101
+
+P5) Dado dois números x e y representado em ponto flutuante IEEE 754 com precisão simples. Sendo x =
+0101 1010 1011 1110 0100 0000 0000 0000 (base 2) e y = 1011 0110 1110 1000 0000 0000 0000 0000 (base 2). Execute
+as operações abaixo, mostrando todo o trabalho.
+a) x + y
+b) x * y
+
+R-
+
+a)
+
+x = 0 10110101 01111100100000000000000
+y = 1 01101101 11010000000000000000000
+
+- x é zero? Não.
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01101110 01101000000000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01101111 00110100000000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110000 00011010000000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110001 00001101000000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110010 00000110100000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110011 00000011010000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110100 00000001101000000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110101 00000000110100000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110110 00000000011010000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01110111 00000000001101000000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111000 00000000000110100000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111001 00000000000011010000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111010 00000000000001101000000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111011 00000000000000110100000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111100 00000000000000011010000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111101 00000000000000001101000
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111110 00000000000000000110100
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 01111111 00000000000000000011010
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 10000000 00000000000000000001101
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 10000001 00000000000000000000110
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 10000010 00000000000000000000011
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 10000011 00000000000000000000001
+
+- y é zero? Não.
+
+- Os expoentes são iguais? Não. Incrementar o menor expoente (y) e mover sua mantissa pra direita.
+x = 0 10110101 01111100100000000000000
+y = 1 10000100 00000000000000000000000
+
+- y é zero? Sim.
+
+Resposta = x = 0 10110101 01111100100000000000000
+
+b)
+
+x = 0 10110101 01111100100000000000000
+y = 1 01101101 11010000000000000000000
+
+- x é zero? Não.
+- y é zero? Não.
+
+- Somar os expoentes
+10110101 + 01101101 = 10111000
+
+- Subtrair o bias
+100100010 - 1111111 = 10100011
+
+- Multiplicar as mantissas
+01111100100000000000000 × 11010000000000000000000 = 011001010010100000000000000000000000000000000
+
+Resultado:
+1 10100011 01100101001010000000000
+
+P6) Considere uma representação de valores de ponto flutuante ± 1.M × B^(e) polarizado, que tenha os
+seguintes requisitos: Suponha que o expoente e deva ter valor no intervalo 0 ≤ e < 32 com polarização
+q, e que a base B seja 2 e a mantissa M tenha 10 bits. O polarizador q é definido pela seguinte
+convenção q = 2^(n-1)-1, onde n é o número de bits do expoente. Considere que a representação possui
+todas as propriedades do padrão IEEE 754 (incluindo denorms, NaN e ± ∞).
+
+- 0 ≤ e < 32 -> 0 ≤ e ≤ 31 -> 00000 ≤ e ≤ 11111 -> 5 bits
+- q = 2^(n-1)-1 = 2^(5-1)-1 = 2^(4)-1 = 15
+
+a) Apresente o formato desta representação de valores de ponto flutuante, especificando o tamanho
+de cada campo desta representação.
+
+R:
+    _   |    _ _ _ _ _   |    _ _ _ _ _ _ _ _ _ _
+    ^            ^                     ^
+Sinal (1 bit), Expoente (5 bits), Mantissa (10 bits)
+
+
+b) Qual é o maior valor positivo e o maior valor negativo que pode ser representado, usando números
+de ponto flutuante normalizados, para este formato?
+
+- maior valor positivo = 0 11110 XXXXXXXXXX
+- maior valor negativo = 1 11110 XXXXXXXXXX
+
+c) Qual é o número denormalizado negativo mais próximo de zero?
+
+R: 1 00000 0000000001
+
+d) Qual é a representação para o infinito?
+
+- +∞ = 0 11111 0000000000
+- -∞ = 1 11111 0000000000
+
+e) Expresse os seguintes números neste formato de ponto flutuante:
+• 15,425
+
+-   15 b10 = 1111 b2
+    0,425 b10 = ?
+    0,425 * 2 = 0,85    -> 0
+    0,85 * 2 =  1,7     -> 1
+    0,7 * 2 =   1,4     -> 1
+    0,4 * 2 =   0,8     -> 0
+    0,8 * 2 =   1,6     -> 1
+    0,6 * 2 =   1,2     -> 1
+    0,2 * 2 =   0,4     -> 0
+    0,4 * 2 =   0,8     -> 0
+    .
+    .
+    .
+    
+    0,425 b10 = 0,011011001100... b2
+    15,425 b10 = 1111,011011001100 ... b2
+    Normalização : 1111,0110110011 x 2^(0) = 1,1110110110 x 2^(3)
+    M = 1110110110
+    + -> 0
+    e = 3 -> e + q = 3 + 15 = 18 -> 10100
+    
+    15,425 -> 0 10100 1110110110 (aprox.)
+
+• -27,75
+
+-   27 b10 = 11011 b2
+    0,75 b10 = ?
+    0,75 * 2 =  1,5     -> 1
+    0,5 * 2 =   1       -> 1
+    
+    0,75 b10 = 0,11 b2
+    27,75 b10 = 11011,11 b2
+    Normalização : 11011,110000 x 2^(0) = 1,1011110000 x 2^(4)
+    M = 1011110000
+    - -> 1
+    e = 4 -> e + q = 4 + 15 = 19 -> 10101
+    
+    -27,75 -> 1 10101 1011110000
+
+P7) Qualquer representação de números de ponto flutuante usada em um computador pode representar
+exatamente apenas certo conjunto de números reais; todos os demais valores devem ser aproximados.
+Se A* é o valor armazenado que se aproxima do valor real A, então o erro relativo, r, é expresso como:
+𝑟 = (𝐴 − 𝐴∗)/𝐴
+Represente o valor decimal +0,333 no seguinte formato de ponto flutuante: base=2, expoente
+polarizado de 4 bits e mantissa de 7 bits. Qual é o erro relativo?
+
+0.333 = (2,7,4) (base, mantissa e expoente)
+
+0.333 = 0.010101001111... → 1,0101001111
+
+ 0  |  0  |  1  |  0  |  1  |  0   |  1  |  0  |  1  |  0  |  1  |  0   |  = 12 bits
+
+= 001010101010 
+
+Positivo, expoente = -2 ⇒ 7 + (-2) = 5 = 0101
+
+valor representado: 1.0101010 * 2^(-2) = 0.010101010 = 0.33203125
+
+Queria 0.333 e consegui 0.33203125. Qual o erro? 
+
+0.333 - 0.33203125 = 0,00096875/0.333 = 0,00290915915915... =~ 0.3% de erro.
+
+Resposta: Erro relativo de 0,00290915915915... =~ 0.3% de erro.
