@@ -142,12 +142,7 @@ function vogueElement(value, count) {
 
 function arithmeticAverage(data) {
     console.log(`\n\n`);
-    
-    data.sort(
-        function compare(a, b) {
-            return a - b;
-        }
-    );
+
 
     let sum = data.reduce(function(accumulator, current_value) {
         return accumulator += current_value;
@@ -162,9 +157,9 @@ function arithmeticAverage(data) {
     return {average, results};
 }
 
-// console.table(arithmeticAverage([612, 983, 623, 883, 666 , 970]).results);
-// console.log(`\n\n`);
-
+console.table(arithmeticAverage([6.5, 6.6, 6.7, 6.8, 7.1, 7.3, 7.4, 7.7, 7.7, 7.7]).results);
+// console.log(`\n\n`);, 
+ 
 /* +=+ Mediana +=+ */
 
 function median(data) {
@@ -320,7 +315,7 @@ function variance(data, info) {
     return info == 'population' ? Math.round(variance_sum * 100 / data.length) / 100 : Math.round(variance_sum * 100 / (data.length - 1)) / 100
 }
 
-// console.log(variance([187, 183, 185], 'sample')); // Mudar para 'population' caso os dados se tratem de uma população
+console.log(variance([6.5, 6.6, 6.7, 6.8, 7.1, 7.3, 7.4, 7.7, 7.7, 7.7], 'sample')); // Mudar para 'population' caso os dados se tratem de uma população
 
 /* +=+ Desvio Padrão +=+ */
 
@@ -330,7 +325,7 @@ function standardDetour(data) {
     return Math.round(Math.sqrt(variance_result) * 100) / 100;
 }
 
-// console.log(standardDetour([187, 183, 185]));
+//console.log(standardDetour([6.5, 6.6, 6.7, 6.8, 7.1, 7.3, 7.4, 7.7, 7.7, 7.7]));
 
 /* +=+ Coeficiente de Variação +=+ */
 
@@ -338,10 +333,10 @@ function coefficientOfVariation(data) {
     let standard_detour_result = standardDetour(data);
     let average_result = arithmeticAverage(data);
 
-    return Math.round(10000 * (standard_detour_result / average_result.average)) / 100;
+    return 100* (standard_detour_result / average_result.average);
 }
 
-// console.log(coefficientOfVariation([187, 183, 185]));
+console.log(coefficientOfVariation([4.2, 5.4, 5.8, 6.2, 6.7, 7.7, 7.7, 8.5, 9.3, 10.0]));
 
 
 /* +=-=+ Capítulo 4 +=-=+ */
