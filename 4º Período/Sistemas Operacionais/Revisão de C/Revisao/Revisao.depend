@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1614775467 source:/home/lucasmc64/Repositories/the-graduation-journey/4º Período/Sistemas Operacionais/Revisão de C/Revisao/basico.c
+	<stdio.h>
+	<stdlib.h>
+
+1614776538 source:/home/lucasmc64/Repositories/the-graduation-journey/4º Período/Sistemas Operacionais/Revisão de C/Revisao/main.c
+	<stdio.h>
+	<stdlib.h>
+
+1614775477 source:/home/lucasmc64/Repositories/the-graduation-journey/4º Período/Sistemas Operacionais/Revisão de C/Revisao/comandos-condicionais.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1614776730 source:/home/lucasmc64/Repositories/the-graduation-journey/4º Período/Sistemas Operacionais/Revisão de C/Revisao/basic.c
+	<stdio.h>
+	<stdlib.h>
+
+1614777571 source:/home/lucasmc64/Repositories/the-graduation-journey/4º Período/Sistemas Operacionais/Revisão de C/Revisao/condicional-commands.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
