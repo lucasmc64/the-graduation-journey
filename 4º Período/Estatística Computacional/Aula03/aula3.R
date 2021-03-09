@@ -7,7 +7,11 @@ w = seq(from = 5, to = 132, by = 3)
 length(w)
 w[22]
 w[22:27]
-#falta
+w[c(3, 31, 23)]
+w[c(TRUE, FALSE, FALSE)]
+w[c(T, F, F)]
+w < 31
+w[w < 31]
 
 # análise de um conjunto de dados
 
@@ -34,6 +38,6 @@ plot(x = iris$Sepal.Length, y = iris$Petal.Length, pch = 19, main = "Sépala vs.
 
 plot(x = iris$Sepal.Length, y = iris$Petal.Length, pch = 19, type = "n")
 points(versicolor$Sepal.Length, versicolor$Petal.Length, col = "blue", pch =19, cex = 1.5)
-points(virginica$Sepal.Lenght, virginica$Petal.Length, col = "green", pch =19, cex = 1.5)
-points(setosa$Sepal.Lenght, setosa$Petal.Length, col = "red", pch =19, cex = 1.5)
+points(virginica$Sepal.Length, virginica$Petal.Length, col = "green", pch =19, cex = 1.5)
+points(setosa$Sepal.Length, setosa$Petal.Length, col = "red", pch =19, cex = 1.5)
 

@@ -43,20 +43,17 @@ vetor*vetor2 ## Multiplica vetores, caso algum vetor seja maior ele recicla o ve
 
 # Dado virtual
 
-dado<- sample(x = 1:6, size = 100, replace = TRUE)
+dado<- sample(x = 1:6, size = 1000, replace = TRUE)
 dado2 <- sample(x = 1:3, size = 3, replace = TRUE, prob = c(1/2, 0, 0, 0))
 
 sum(dado) # soma
-
-cumsum(dado) #soma acumulada
-cumsum(dado)/1:100 #médias ao longo do tempo
-
 mean(dado) # média
 
-#Grafico
-#plot(vetor,w)
-#plot(vetor,w, type="l")
-#abline(h = 3.5, col = "red")
+cumsum(dado) #soma acumulada
+media = cumsum(dado)/1:1000 #médias ao longo do tempo
+
+plot(1:1000, media, type = "l")
+abline(h = 3.5, col = "red")
 
 
 
