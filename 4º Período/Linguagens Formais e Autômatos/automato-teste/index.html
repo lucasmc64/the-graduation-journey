@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Autômato Teste</title>
+</head>
+<body>
+    <section class="card">
+        <h1>Autômato Teste</h1>
+
+        <form>
+            <p>Esse autômato interpreta cadeias compostas de 0s e 1s, mas obrigatóriamente contém a subcadeia 01.</p>
+
+            <fieldset>
+                <label for="word">Cadeia</label>
+                <input type="text" name="word" id="word" placeholder="Digite a cadeia aqui">
+            </fieldset>
+
+            <button type="submit">Verificar</button>
+        </form>
+
+        <div class="automato">
+            <svg class="arrow-next-state"
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                width="102.097"
+                height="20.785"
+                viewBox="0 0 27.013164 5.4993647"
+                version="1.1"
+                id="svg8"
+                inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+                sodipodi:docname="next-state.svg"
+            >
+                <path
+                    id="path832"
+                    style="color:currentColor;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:currentColor;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:currentColor;solid-opacity:1;vector-effect:none;fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:currentColor;stop-opacity:1"
+                    d="m 23.157336,0.37664361 c -0.229924,0.021504 -0.44256,0.2247332 -0.425297,0.4702556 3.34e-4,0.41791599 6.81e-4,0.83574379 5.17e-4,1.25367019 a 0.66441999,0.66441999 0 0 0 -0.07131,-0.00465 H 0.71167827 A 0.66441999,0.66441999 0 0 0 0.04763614,2.7599617 0.66441999,0.66441999 0 0 0 0.71167827,3.4245204 H 22.661242 a 0.66441999,0.66441999 0 0 0 0.07183,-0.00413 c 1.16e-4,0.4277399 -6.8e-4,0.8554082 5.17e-4,1.2831259 0.01254,0.3281397 0.423692,0.5362287 0.695565,0.3524332 1.112546,-0.6438818 2.227358,-1.2844486 3.338814,-1.9301147 0.124026,-0.084518 0.200562,-0.2323415 0.197405,-0.3824055 0.0061,-0.2190331 -0.168561,-0.373104 -0.350366,-0.4594036 -1.077069,-0.6205299 -2.151698,-1.2447778 -3.229778,-1.86345209 -0.07258,-0.038354 -0.151252,-0.051093 -0.227893,-0.043925 z m 0.489376,1.24901939 1.946651,1.1244791 -1.946651,1.1244791 z" 
+                />
+            </svg>
+        </div>
+    </section>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
