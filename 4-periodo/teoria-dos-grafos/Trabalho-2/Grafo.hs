@@ -1,6 +1,25 @@
 module Grafo 
     (
-        eTrivial
+        eTrivial,
+        eIsolado,
+        eTerminal,
+        ePar,
+        eImpar,
+        seqGraus,
+        grauMax,
+        grauMin,
+        eRegular,
+        eKRegular,
+        eVazio,
+        eNulo,
+        eCompleto,
+        eKn,
+        grafoCompleto,
+        grafoComplemento,
+        eSubgrafo,
+        eSubgrafoProprio,
+        eSubgrafoInduzidoVertices,
+        eSubgrafoInduzidoArestas
     ) where
 
 import GrafoListAdj
@@ -77,7 +96,7 @@ grauMin g = minimum (seqGraus g)
 
 eRegular :: Grafo -> Bool
 eRegular g
-    | grauMin g == grauMax g = True
+    | not (null (vértices g)) && grauMin g == grauMax g = True
     | otherwise = False 
 
 {-
@@ -130,7 +149,7 @@ eKn g n
 -}
 
 grafoCompleto :: Int -> Grafo 
-grafoCompleto n = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n]]
+grafoCompleto n = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], v1 /= v2]
 
 {-
     Retorna um grafo que é o complemento de um grafo g
@@ -166,16 +185,50 @@ eSubgrafoProprio h g
     | otherwise = False
 
 {-
-    Verifica se um subgrafo induzido por um lista de vértices do grafo original
+    Verifica se um subgrafo é induzido por um lista de vértices do grafo original
 -}
 
-elemNaoUsadosPorH :: Eq a => [a] -> [a] -> [a]
-elemNaoUsadosPorH lh lg = [ig | ig <- lg, ih <- lh, ig /= ih]
+criaListaArestas :: Grafo -> [Int] -> [(Int, Int)]
+criaListaArestas g vh = [(v1, v2) | v1 <- vh, v2 <- vh, elem (v1, v2) (arestas g)]
 
 eSubgrafoInduzidoVertices :: Grafo -> Grafo -> [Int] -> Bool
 eSubgrafoInduzidoVertices h g vh
-    | eSubgrafo h g && 
+    | eSubgrafo h g && arestas h == criaListaArestas g vh = True
+    | otherwise = False
 
+{-
+    Verifica se um subgrafo é induzido por um lista de arestas do grafo original
+-}
+
+criaListaVertices :: Grafo -> [(Int, Int)] -> [Int] -> [Int]
+criaListaVertices g [] lv = lv
+criaListaVertices g ((v1, v2):t) lv
+    | notElem v1 lv && notElem v2 lv = [v1] ++ [v2] ++ criaListaVertices g t lv
+    | notElem v1 lv = v1 : criaListaVertices g t lv
+    | notElem v2 lv = v2 : criaListaVertices g t lv
+    | otherwise = criaListaVertices g t lv
+    where
+        vg = vértices g
+
+eSubgrafoInduzidoArestas :: Grafo -> Grafo -> [(Int, Int)] -> Bool
+eSubgrafoInduzidoArestas h g ah
+    | eSubgrafo h g && vértices h == criaListaVertices g ah [] = True 
+    | otherwise = False
+
+{-
+
+-}
+
+-- eClique
+-- eClique h g
+
+{-
+
+-}
+
+{-
+
+-}
 
 {-
 
