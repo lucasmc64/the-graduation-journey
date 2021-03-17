@@ -1,7 +1,3 @@
-éSubgrafoInduzidoVértices h g vh, devolve True se o grafo h é um subgrafo induzido por um lista de vértices vh do grafo g ou False, em caso contrário.
-
-éSubgrafoInduzidoArestas h g ah, devolve True se o grafo h é um subgrafo induzido por um lista de arestas ah do grafo g ou False, em caso contrário.
-
 éClique h g, devolve True se o grafo h é um clique do grafo g ou False, em caso contrário.
 
 éCjIndependenteVértices h g, devolve True se o grafo h é um conjunto independente de vértices do grafo g ou False, em caso contrário.
