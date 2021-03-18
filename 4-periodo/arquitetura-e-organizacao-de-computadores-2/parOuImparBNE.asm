@@ -1,4 +1,4 @@
-# Par ou Impar?
+# Par ou Impar? (COM A INSTRUCAO BNE)
 #
 # DESC: Programa que le um inteiro da entrada padrao, testa se ele e par ou impar e informa ao usuario
 #
@@ -32,22 +32,22 @@
 	
 	addi $s0, $zero, 1
 	and $t0, $s7, $s0
-	beq $t0, $zero, PAR
+	bne $t0, $zero, IMPAR
 	
-IMPAR:
-	la $a0, str4
-	addi $v0, $zero, 4
-	syscall 
-	j SAI
-
 PAR:
 	la $a0, str3
 	addi $v0, $zero, 4
 	syscall 
+	j SAI
+
+IMPAR:
+	la $a0, str4
+	addi $v0, $zero, 4
+	syscall 
 	
-	# Informar ao SO que o programa terminou sem erros
 SAI:
+	# Informar ao SO que o programa terminou sem erros
+	
 	addi $v0, $zero, 10
 	syscall
 
-	# Escrever esse mesmo programa, mas usando o Bne
