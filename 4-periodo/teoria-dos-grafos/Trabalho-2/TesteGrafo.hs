@@ -97,4 +97,46 @@ main =
     print (grafoComplemento (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)])) >>
     print (grafoComplemento (novoGrafo 4 [(1, 2), (1, 3), (2, 3)])) >>
     print (grafoComplemento (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    putStr "\n" >>
+
+    print "eSubgrafo" >>
+    print (eSubgrafo (novoGrafo 4 [(1, 2), (1, 3), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)])) >>
+    print (eSubgrafo (novoGrafo 4 [(1, 4), (2, 4), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3)])) >>
+    print (eSubgrafo (novoGrafo 3 []) (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    putStr "\n" >>
+
+    print "eSubgrafoProprio" >>
+    print (eSubgrafoProprio (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)])) >>
+    print (eSubgrafoProprio (novoGrafo 4 [(1, 4), (2, 4), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3)])) >>
+    print (eSubgrafoProprio (novoGrafo 3 []) (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    putStr "\n" >>
+
+    print "eSubgrafoInduzidoVertices" >>
+    print (eSubgrafoInduzidoVertices (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]) [1, 2, 3]) >>
+    print (eSubgrafoInduzidoVertices (novoGrafo 4 [(1, 2), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3), (4, 3)]) [3, 4]) >>
+    print (eSubgrafoInduzidoVertices (novoGrafo 3 []) (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [2, 3]) >>
+    putStr "\n" >>
+
+    print "eSubgrafoInduzidoArestas" >>
+    print (eSubgrafoInduzidoArestas (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]) [(1, 2), (1, 4), (2, 4)]) >>
+    print (eSubgrafoInduzidoArestas (novoGrafo 4 [(1, 2), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3), (4, 3)]) [(1, 3), (4, 3)]) >>
+    print (eSubgrafoInduzidoArestas (novoGrafo 3 []) (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [(2, 3)]) >>
+    putStr "\n" >>
+
+    print "eClique" >>
+    print (eClique (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)])) >>
+    print (eClique (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3), (4, 3)])) >>
+    print (eClique (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 4), (2, 3), (2, 4)])) >>
+    putStr "\n" >>
+
+    print "eCjIndependenteVertices" >>
+    print (eCjIndependenteVertices (novoGrafo 3 []) (novoGrafo 6 [(1, 4), (2, 4), (3, 4), (4, 5), (5, 6), (6, 1)])) >>
+    print (eCjIndependenteVertices (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3), (4, 3)])) >>
+    print (eCjIndependenteVertices (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) (novoGrafo 4 [(1, 2), (1, 4), (2, 3), (2, 4)])) >>
+    putStr "\n" >>
+
+    print "uniao" >>
+    print (uniao (novoGrafo 3 [(1, 3), (2, 3)]) (novoGrafo 2 [(1, 2)])) >>
+    print (uniao (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) (novoGrafo 4 [(1, 2), (1, 3), (2, 3), (4, 3)])) >>
+    print (uniao (novoGrafo 2 [(1, 2)]) (novoGrafo 4 [(1, 4), (2, 3), (2, 4)])) >>
     putStr "\n" -- >>

@@ -19,10 +19,33 @@ module Grafo
         eSubgrafo,
         eSubgrafoProprio,
         eSubgrafoInduzidoVertices,
-        eSubgrafoInduzidoArestas
+        eSubgrafoInduzidoArestas,
+        eClique,
+        eCjIndependenteVertices,
+        uniao
     ) where
 
 import GrafoListAdj
+
+
+
+
+
+
+{-
+    Funções globais
+-}
+
+pertenceHaG :: Eq a => [a] -> [a]-> Bool 
+pertenceHaG [] g = True
+pertenceHaG (hh:th) g
+    | elem hh g = pertenceHaG th g
+    | otherwise = False
+
+
+
+
+
 
 {-
     Verifica se um grafo é trivial (possui apenas um vértice)
@@ -165,15 +188,9 @@ grafoComplemento g = novoGrafo n [(v1, v2) | (v1, v2) <- arestas (grafoCompleto 
     Verifica se o primeiro grafo é subgrafo do segundo
 -}
 
-eSubgrafoVerifica :: Eq a => [a] -> [a]-> Bool 
-eSubgrafoVerifica [] g = True
-eSubgrafoVerifica (hh:th) g
-    | elem hh g = eSubgrafoVerifica th g
-    | otherwise = False
-
 eSubgrafo :: Grafo -> Grafo -> Bool
 eSubgrafo h g
-    | eSubgrafoVerifica (vértices h) (vértices g) && eSubgrafoVerifica (arestas h) (arestas g) = True 
+    | pertenceHaG (vértices h) (vértices g) && pertenceHaG (arestas h) (arestas g) = True 
     | otherwise = False
 
 {-
@@ -190,46 +207,72 @@ eSubgrafoProprio h g
 -}
 
 criaListaArestas :: Grafo -> [Int] -> [(Int, Int)]
-criaListaArestas g vh = [(v1, v2) | v1 <- vh, v2 <- vh, elem (v1, v2) (arestas g)]
+criaListaArestas g vh = [(v1, v2) | v1 <- vh, v2 <- vh, v1 < v2, elem (v1, v2) ag || elem (v2, v1) ag]
+    where
+        ag = arestas g
 
 eSubgrafoInduzidoVertices :: Grafo -> Grafo -> [Int] -> Bool
 eSubgrafoInduzidoVertices h g vh
-    | eSubgrafo h g && arestas h == criaListaArestas g vh = True
+    | eSubgrafo h g && pertenceHaG (criaListaArestas g vh) (arestas h) = True
     | otherwise = False
 
 {-
     Verifica se um subgrafo é induzido por um lista de arestas do grafo original
 -}
 
-criaListaVertices :: Grafo -> [(Int, Int)] -> [Int] -> [Int]
-criaListaVertices g [] lv = lv
-criaListaVertices g ((v1, v2):t) lv
-    | notElem v1 lv && notElem v2 lv = [v1] ++ [v2] ++ criaListaVertices g t lv
-    | notElem v1 lv = v1 : criaListaVertices g t lv
-    | notElem v2 lv = v2 : criaListaVertices g t lv
-    | otherwise = criaListaVertices g t lv
+criaListaVertices :: [(Int, Int)] -> [Int]
+criaListaVertices [] = []
+criaListaVertices ((v1, v2):t)
+    | notElem v1 lv && notElem v2 lv = [v1] ++ [v2] ++ lv
+    | notElem v1 lv = v1 : lv
+    | notElem v2 lv = v2 : lv
+    | otherwise = lv
     where
-        vg = vértices g
+        lv = criaListaVertices t
 
 eSubgrafoInduzidoArestas :: Grafo -> Grafo -> [(Int, Int)] -> Bool
 eSubgrafoInduzidoArestas h g ah
-    | eSubgrafo h g && vértices h == criaListaVertices g ah [] = True 
+    | eSubgrafo h g && pertenceHaG (criaListaVertices ah) (vértices h) && pertenceHaG ah (arestas h) = True 
+    | otherwise = False
+
+{-
+    Verifica se um grafo é clique do outro
+-}
+
+eClique :: Grafo -> Grafo -> Bool
+eClique h g
+    | eSubgrafo h g && eCompleto h = True
+    | otherwise = False
+
+{-
+    Verifica se um subgrafo é um conjunto independente de vértices de outro
+-}
+
+eCjIndependenteVertices :: Grafo -> Grafo -> Bool
+eCjIndependenteVertices h g
+    | eVazio h && eSubgrafoInduzidoVertices h g (vértices h) = True
     | otherwise = False
 
 {-
 
 -}
 
--- eClique
--- eClique h g
+uniaoVertices :: [Int] -> [Int] -> Int 
+uniaoVertices [] vh = length vh
+uniaoVertices (hg:tg) vh
+    | notElem hg vh = 1 + (uniaoVertices tg vh)
+    | otherwise = uniaoVertices tg vh
 
-{-
+uniaoArestas :: [(Int, Int)] -> [(Int, Int)] -> [(Int, Int)]
+uniaoArestas [] ah = ah
+uniaoArestas ((v1, v2):tg) ah
+    | notElem (v1, v2) ah && notElem (v2, v1) ah = (v2, v1) : uniaoArestas tg ah
+    | otherwise = uniaoArestas tg ah
 
--}
-
-{-
-
--}
+uniao :: Grafo -> Grafo -> Grafo
+uniao g h = novoGrafo n [a | a <- (uniaoArestas (arestas g) (arestas h))]
+    where
+        n = uniaoVertices (vértices g) (vértices h)
 
 {-
 
