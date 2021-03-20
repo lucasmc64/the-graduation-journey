@@ -156,9 +156,10 @@ grafoCompleto n = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], v1 < v2]
 -}
 
 grafoComplemento :: Grafo  -> Grafo 
-grafoComplemento g = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], ag <- arestas g, ((v1, v2) /= ag) && ((v2, v1) /= ag), v1 < v2]
+grafoComplemento g = novoGrafo n [(v1, v2) | (v1, v2) <- arestas (grafoCompleto n), notElem (v1, v2) ag && notElem (v2, v1) ag]
     where
         n = length (vértices g)
+        ag = arestas g
 
 {-
     Verifica se o primeiro grafo é subgrafo do segundo
