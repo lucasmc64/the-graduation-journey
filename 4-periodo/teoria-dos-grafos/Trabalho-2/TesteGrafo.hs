@@ -87,8 +87,14 @@ main =
     print (eKn (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) 3) >>
     putStr "\n" >>
 
-    print "grafoCompleto" >> -- ERRADO
+    print "grafoCompleto" >>
     print (grafoCompleto 2) >>
     print (grafoCompleto 3) >>
     print (grafoCompleto 4) >>
-    putStr "\n" 
+    putStr "\n" >>
+
+    print "grafoComplemento" >>
+    print (grafoComplemento (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4)])) >>
+    print (grafoComplemento (novoGrafo 4 [(1, 2), (1, 3), (2, 3)])) >>
+    print (grafoComplemento (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    putStr "\n" -- >>

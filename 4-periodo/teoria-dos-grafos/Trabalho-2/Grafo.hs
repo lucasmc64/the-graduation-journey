@@ -149,14 +149,14 @@ eKn g n
 -}
 
 grafoCompleto :: Int -> Grafo 
-grafoCompleto n = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], v1 /= v2]
+grafoCompleto n = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], v1 < v2]
 
 {-
     Retorna um grafo que é o complemento de um grafo g
 -}
 
 grafoComplemento :: Grafo  -> Grafo 
-grafoComplemento g = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], ag <- arestas g, (v1, v2) /= ag]
+grafoComplemento g = novoGrafo n [(v1, v2) | v1 <- [1..n], v2 <- [1..n], ag <- arestas g, ((v1, v2) /= ag) && ((v2, v1) /= ag), v1 < v2]
     where
         n = length (vértices g)
 
