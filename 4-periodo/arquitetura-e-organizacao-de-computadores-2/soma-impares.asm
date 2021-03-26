@@ -26,6 +26,8 @@
 	la $t0, i # Carrega em $t0 o endereço de i
 	lw $s0, 0($t0) # $s0 recebe o valor de i (0)
 	
+	addi $s3, $zero, 1 # Proximo inteiro
+	
 	la $t0, limit # Carrega em $t0 o endereço de limit
 	lw $s1, 0($t0) # $s1 recebe o valor de i (1000)
 	
@@ -37,11 +39,12 @@ FOR1:
 	
 	# Loop _____
 	
-	add $s7, $s7, $s0
+	add $s7, $s7, $s3
 	
 	# __________
 	
-	addi $s0, $s0, 2
+	addi $s3, $s3, 2
+	addi $s0, $s0, 1
 	j FOR1
 	
 END1:
