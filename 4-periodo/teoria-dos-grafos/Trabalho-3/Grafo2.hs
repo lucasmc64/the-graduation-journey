@@ -5,10 +5,48 @@ module Grafo2
         contraiAresta,
         éPasseio,
         éPasseioAberto,
-        éPasseioFechado
+        éPasseioFechado,
+        éTrilha,
+        éCaminho,
+        éCiclo
     ) where
 
 import GrafoListAdj
+import Grafo
+
+
+
+
+
+
+
+
+
+
+{-
+    Funções globais
+-}
+
+pertenceHaG :: Eq a => [a] -> [a]-> Bool 
+pertenceHaG [] g = True
+pertenceHaG (hh:th) g
+    | elem hh g = pertenceHaG th g
+    | otherwise = False
+
+pertenceArestas :: [(Int, Int)] -> [(Int, Int)] -> Bool
+pertenceArestas [] ag = True
+pertenceArestas ((v1, v2):t) ag
+    | elem (v1, v2) ag || elem (v2, v1) ag = pertenceArestas t ag
+    | otherwise = False
+
+
+
+
+
+
+
+
+
 
 {-
     QUESTÃO 1 
@@ -110,70 +148,120 @@ contraiAresta g (v, w) =
     éTrilha g vs, verifica se a lista de vértices vs é uma trilha no grafo g.
 -}
 
+geraArestas :: [Int] -> [(Int, Int)]
+geraArestas [v] = []
+geraArestas (v1:v2:t) = (v1, v2) : (geraArestas (v2:t))
+
+verificaIgualdadeArestas :: [(Int, Int)] -> Bool -- Retorna verdadeiro se possuir arestas iguais
+verificaIgualdadeArestas [] = False
+verificaIgualdadeArestas ((v1, v2):t)
+    | notElem (v1, v2) t && notElem (v2, v1) t = verificaIgualdadeArestas t
+    | otherwise = True
+
+éTrilha :: Grafo -> [Int] -> Bool 
+éTrilha g vs
+    | not (verificaIgualdadeArestas a) && pertenceArestas a (arestas g) = True
+    | otherwise = False
+    where
+        a = geraArestas vs
+
 {-
     QUESTÃO 8
+    éCaminho g vs, verifica se a lista de vértices vs é um caminho no grafo g.
 -}
+
+verificaIgualdadeVertices :: [Int] -> Bool -- Retorna verdadeiro se possuir vértices iguais
+verificaIgualdadeVertices [] = False
+verificaIgualdadeVertices (v:t)
+    | notElem v t = verificaIgualdadeVertices t
+    | otherwise = True
+
+éCaminho :: Grafo -> [Int] -> Bool
+éCaminho g vs
+    | éTrilha g vs && not (verificaIgualdadeVertices vs) = True 
+    | otherwise = False
 
 {-
     QUESTÃO 9
+    éCiclo g vs, verifica se a lista de vértices vs é um ciclo no grafo g.
 -}
+
+éCiclo :: Grafo -> [Int] -> Bool
+éCiclo g vs
+    | éCaminho g (tail (reverse vs)) && head vs == last vs = True
+    | otherwise = False
 
 {-
     QUESTÃO 10
+    éGrafoCíclico c, verifica se o grafo c é cíclico.
 -}
 
 {-
     QUESTÃO 11
+    éCn g n, verifica se o grafo g é cíclico com n vértices.
 -}
 
 {-
     QUESTÃO 12
+    éGrafoCaminho g, verifica se o grafo g é um grafo caminho.
 -}
 
 {-
     QUESTÃO 13
+    éPn p n, verifica se o grafo p é um grafo caminho com n vértices.
 -}
 
 {-
     QUESTÃO 14
+    éGrafoBipartido g v1 v2, verifica se um grafo g é bipartido com a partição dos vértices dada pelas listas de vértices v1 e v2.
 -}
 
 {-
     QUESTÃO 15
+    éTrilhaEuleriana g t, verifica se a trilha t é euleriana no grafo g.
 -}
 
 {-
     QUESTÃO 16
+    éGrafoEuleriano g, verifica se um dado g é euleriano. Use o Teorema de Euler.
 -}
 
 {-
     QUESTÃO 17
+    éSemiEuleriano g, verifica se um dado g é semi-euleriano.
 -}
 
 {-
     QUESTÃO 18
+    éHamiltonianoOre g, verifica se um grafo g é hamiltoniano usando o teorema de Ore.
 -}
 
 {-
     QUESTÃO 19
+    éHamiltonianoDirac g, verfica se um grafo g é hamiltoniano usando o teorema de Dirac.
 -}
 
 {-
     QUESTÃO 20
+    fecho g, devolve um grafo que é o fecho do grafo g.
 -}
 
 {-
     QUESTÃO 21
+    buscaGenérica g, devolve uma lista de vértices na sequência em que são primeiramente visitados (marcados) em uma busca genérica no grafo g.
 -}
 
 {-
     QUESTÃO 22
+    buscaLargura g, devolve uma lista de vértices na sequência em que são primeiramente visitados (marcados) em uma busca em largura no grafo g.
 -}
 
 {-
     QUESTÃO 23
+    buscaProfundidade g, devolve uma lista de vértices na sequência em que são primeiramente visitados (marcados) em uma busca em profundidade no grafo g.
 -}
 
 {-
     QUESTÃO 24
+    menorCaminho g u v, devolve uma lista com os vértices no menor caminho emgentre os vérticesuev. Adapte a busca em largura e a use para resolver este problema.
 -}

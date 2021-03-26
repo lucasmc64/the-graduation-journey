@@ -37,4 +37,22 @@ main =
     print (éPasseioFechado (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) [1, 3, 4]) >>
     print (éPasseioFechado (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [3, 2, 1, 3]) >>
     print (éPasseioFechado (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 2, 3, 4, 5]) >>
+    putStr "\n" >>
+
+    print "éTrilha" >>
+    print (éTrilha (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) [1, 3, 4]) >>
+    print (éTrilha (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [3, 2, 1, 3]) >>
+    print (éTrilha (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 2, 3, 4, 5]) >>
+    putStr "\n" >>
+
+    print "éCaminho" >>
+    print (éCaminho (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) [1, 3, 4]) >>
+    print (éCaminho (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [3, 2, 1, 3]) >>
+    print (éCaminho (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 2, 3, 4, 5]) >>
+    putStr "\n" >>
+
+    print "éCiclo" >>
+    print (éCiclo (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) [1, 3, 4]) >>
+    print (éCiclo (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [3, 2, 1, 3]) >>
+    print (éCiclo (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 2, 3, 4, 5]) >>
     putStr "\n" -- >>
