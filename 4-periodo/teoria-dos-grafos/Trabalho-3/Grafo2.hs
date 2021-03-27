@@ -8,7 +8,11 @@ module Grafo2
         éPasseioFechado,
         éTrilha,
         éCaminho,
-        éCiclo
+        éCiclo,
+        éGrafoCíclico,
+        éCn,
+        éGrafoCaminho,
+        éGrafoBipartido
     ) where
 
 import GrafoListAdj
@@ -148,6 +152,7 @@ contraiAresta g (v, w) =
     éTrilha g vs, verifica se a lista de vértices vs é uma trilha no grafo g.
 -}
 
+{- Essa foi a minha primeira solução, mas ela funcionava apenas se houvesse arestas entre os vértices em sequência
 geraArestas :: [Int] -> [(Int, Int)]
 geraArestas [v] = []
 geraArestas (v1:v2:t) = (v1, v2) : (geraArestas (v2:t))
@@ -164,6 +169,16 @@ verificaIgualdadeArestas ((v1, v2):t)
     | otherwise = False
     where
         a = geraArestas vs
+-}
+
+geraTrilhas :: Grafo -> [Int] -> [[(Int, Int)]]
+geraTrilhas g [v] = [[]]
+geraTrilhas g vs = [(v1, v2):t | v1 <- vs, v2 <- vs, elem (v1, v2) (arestas g) || elem (v2, v1) (arestas g), t <- geraTrilhas g (tail vs), notElem (v1, v2) t && notElem (v2, v1) t, if null t then True else v2 == fst (head t)]
+
+éTrilha :: Grafo -> [Int] -> Bool 
+éTrilha g vs
+    | length (geraTrilhas g vs) /= 0 = True
+    | otherwise = False
 
 {-
     QUESTÃO 8
@@ -196,25 +211,56 @@ verificaIgualdadeVertices (v:t)
     éGrafoCíclico c, verifica se o grafo c é cíclico.
 -}
 
+éGrafoCíclico :: Grafo -> Bool
+éGrafoCíclico c
+    | eKRegular c 2 = True 
+    | otherwise = False
+
 {-
     QUESTÃO 11
     éCn g n, verifica se o grafo g é cíclico com n vértices.
 -}
+
+éCn :: Grafo -> Int -> Bool
+éCn g n
+    | éGrafoCíclico g && length (vértices g) == n = True
+    | otherwise = False
 
 {-
     QUESTÃO 12
     éGrafoCaminho g, verifica se o grafo g é um grafo caminho.
 -}
 
+éGrafoCaminho :: Grafo -> Bool
+éGrafoCaminho g
+    | éCaminho g (vértices g) && length (arestas g) + 1 == length (vértices g) = True
+    | otherwise = False
+
 {-
     QUESTÃO 13
     éPn p n, verifica se o grafo p é um grafo caminho com n vértices.
 -}
 
+éPn :: Grafo -> Int -> Bool
+éPn p n
+    | éGrafoCaminho p && n == length (vértices p) = True 
+    | otherwise = False
+
 {-
     QUESTÃO 14
     éGrafoBipartido g v1 v2, verifica se um grafo g é bipartido com a partição dos vértices dada pelas listas de vértices v1 e v2.
 -}
+
+geraArestas :: Grafo -> [Int] -> [(Int, Int)]
+geraArestas g lv = [(v1, v2) | v1 <- lv, v2 <- lv, elem (v1, v2) (arestas g)]
+
+listaGraus :: Grafo -> [Int]
+listaGraus g = [grau g v | v <- (vértices g)]
+
+éGrafoBipartido :: Grafo -> [Int] -> [Int] -> Bool
+éGrafoBipartido g lv1 lv2
+    | null (geraArestas g lv1) && null (geraArestas g lv2) && minimum (listaGraus g) /= 0 = True 
+    | otherwise = False
 
 {-
     QUESTÃO 15

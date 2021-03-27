@@ -55,4 +55,28 @@ main =
     print (éCiclo (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) [1, 3, 4]) >>
     print (éCiclo (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [3, 2, 1, 3]) >>
     print (éCiclo (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 2, 3, 4, 5]) >>
+    putStr "\n" >>
+
+    print "éGrafoCíclico" >>
+    print (éGrafoCíclico (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)])) >>
+    print (éGrafoCíclico (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    print (éGrafoCíclico (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)])) >>
+    putStr "\n" >>
+
+    print "éCn" >>
+    print (éCn (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)]) 4) >>
+    print (éCn (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) 3) >>
+    print (éCn (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) 5) >>
+    putStr "\n" >>
+
+    print "éGrafoCaminho" >>
+    print (éGrafoCaminho (novoGrafo 4 [(1, 2), (2, 3), (3, 4)])) >>
+    print (éGrafoCaminho (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    print (éGrafoCaminho (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)])) >>
+    putStr "\n" >>
+
+    print "éGrafoBipartido" >>
+    print (éGrafoBipartido (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) [1, 2] [3, 4]) >>
+    print (éGrafoBipartido (novoGrafo 3 [(1, 2), (1, 3)]) [1] [2, 3]) >>
+    print (éGrafoBipartido (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)]) [1, 3, 5] [2, 4]) >>
     putStr "\n" -- >>
