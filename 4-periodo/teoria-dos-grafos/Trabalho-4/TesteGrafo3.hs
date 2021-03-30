@@ -55,4 +55,16 @@ main =
     print (centro (novoGrafo 4 [(1, 2), (2, 3), (3, 4)])) >>
     print (centro (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
     print (centro (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)])) >>
+    putStr "\n" >>
+
+    print "éArticulação" >> 
+    print (éArticulação (novoGrafo 4 [(1, 2), (2, 3), (3, 4), (1, 4)]) 1) >>
+    print (éArticulação (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) 3) >>
+    print (éArticulação (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (3, 5)]) 3) >>
+    putStr "\n" >>
+
+    print "éPonte" >> 
+    print (éPonte (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) (2, 3)) >>
+    print (éPonte (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) (3, 1)) >>
+    print (éPonte (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)]) (3, 4)) >>
     putStr "\n" -- >>

@@ -8,7 +8,9 @@ module Grafo3
         excentricidade,
         raio,
         diâmetro,
-        centro
+        centro,
+        éArticulação,
+        éPonte
     ) where
 
 import GrafoListAdj
@@ -171,8 +173,10 @@ centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
     em caso contrário.
 -}
 
--- éArticulação :: Grafo -> Int -> Bool
--- éArticulação g u
+éArticulação :: Grafo -> Int -> Bool
+éArticulação g u
+    | numCompConexas (removeVértice g u) > numCompConexas g = True
+    | otherwise = False
 
 {-
     QUESTÃO 11
@@ -180,8 +184,10 @@ centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
     contrário.
 -}
 
--- éPonte :: Grafo -> (Int, Int) -> Bool
--- éPonte g (u,v)
+éPonte :: Grafo -> (Int, Int) -> Bool
+éPonte g (u,v)
+    | numCompConexas (removeVértice g u) > numCompConexas g && numCompConexas (removeVértice g v) > numCompConexas g = True
+    | otherwise = False
 
 {-
     QUESTÃO 12
