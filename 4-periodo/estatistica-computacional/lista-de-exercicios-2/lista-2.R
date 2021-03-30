@@ -27,11 +27,19 @@ rep(c(4, 6, 3), 10)
 # O número 4 se repete 11 vezes, os demais 10 vezes
 rep(c(4, 6, 3), 10, length.out = 31)
 
+
+
+
+
 # Exercício 2
 
 # Calcular e^x * cos(x) para x = 3, 3.1, 3.2, 3.3, ...  , 6
 x = seq(from = 3, to = 6, by = 0.1)
 answers = exp(x) * cos(x)
+
+
+
+
 
 # Exercício 3
 
@@ -49,13 +57,46 @@ xVec <- sample(0:999, 250, replace=T)
 yVec <- sample(0:999, 250, replace=T)
 
 # Letra A
-xVecImpares <- xVec[xVec ]
-odd(4)
+xVecImpares <- xVec[xVec %% 2 != 0]
 
 # Letra B
+vecSub <- yVec[2:250] - xVec[1:249]
 
 # Letra C
+vecTrig <- sin(yVec[2:250]) / cos(xVec[1:249])
 
 # Letra D
+xVecEq <- xVec[1:248] + 2 * xVec[2:249] - xVec[3:250]
 
 # Letra E
+xVecSum <- sum((exp(-xVec[1:249] + 1)) / (xVec[1:249] + 10))
+
+
+
+
+
+# Exercício 5
+
+# Letra A
+which(yVec > 600)
+
+# Letra B
+maiSeis <- yVec[which(yVec > 600)]
+
+# Letra C
+maiSeis[match(xVec, maiSeis, nomatch = FALSE)]
+
+# Letra D
+xVecSqrt <- sqrt(xVec) - mean(xVec)
+
+# Letra E
+yVec[yVec > (max(yVec) - 200) & yVec < (max(yVec) + 200)] # 'yVec < (max(yVec) + 200)' não é necessário pois o valor referência é o maior valor do vetor
+
+# Letra F
+length(which(xVec %% 2 == 0))
+
+# Letra G
+# sort(yVec, decreasing = FALSE)
+
+# Letra H
+
