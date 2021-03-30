@@ -1,7 +1,9 @@
 module Grafo3
     (
         éConexo,
-        numCompConexas
+        numCompConexas,
+        ciclo,
+        distância
     ) where
 
 import GrafoListAdj
@@ -20,24 +22,6 @@ import Grafo2
 {-
     Funções globais
 -}
-
-pertenceHaG :: Eq a => [a] -> [a]-> Bool 
-pertenceHaG [] g = True
-pertenceHaG (hh:th) g
-    | elem hh g = pertenceHaG th g
-    | otherwise = False
-
-pertenceArestas :: [(Int, Int)] -> [(Int, Int)] -> Bool
-pertenceArestas [] ag = True
-pertenceArestas ((v1, v2):t) ag
-    | elem (v1, v2) ag || elem (v2, v1) ag = pertenceArestas t ag
-    | otherwise = False
-
-removeElem :: Eq a => [a] -> a -> [a]
-removeElem [] e = []
-removeElem (h:t) e
-    | h == e = t
-    | otherwise = h : removeElem t e
 
 
 
@@ -103,17 +87,37 @@ numCompConexas g
     ponto de partida da busca.
 -}
 
--- ciclo :: Grafo -> Int -> [(Int, Int)]
--- ciclo g u
+ciclo :: Grafo -> Int -> [[Int]]
+ciclo g u = [l | l <- (numCompConexasAux (arestas g)), éCiclo g l]
 
 {-
     QUESTÃO 4
     distância g u v, devolve a distância entre os vértices u e v em g.
 -}
 
--- distância :: Grafo -> Int -> Int -> Int
--- distância g u v
+normalizaSubconjuntos :: [[Int]] -> [[Int]]
+normalizaSubconjuntos [] = []
+normalizaSubconjuntos (h:t)
+    | elem h t = normalizaSubconjuntos t
+    | otherwise = h : normalizaSubconjuntos t
 
+geraSubconjuntos :: [Int] -> [[Int]]
+geraSubconjuntos [] = [[]]
+geraSubconjuntos l = normalizaSubconjuntos ([v:t | v <- l, t <- geraSubconjuntos (removeElem l v), if null t then True else v < head t] ++ (geraSubconjuntos (tail l)))
+
+distânciaAux :: Grafo -> [Int] -> Int -> Int -> [[(Int, Int)]]
+distânciaAux g l vi vf = [sl | sc <- (geraSubconjuntos l), sl <- (geraTrilhas g ([vi] ++ sc ++ [vf])), sl /= []]
+
+menorLista :: [[(Int, Int)]] -> [(Int, Int)]
+menorLista [l] = l
+menorLista (h:t)
+    | length h < length (menorLista t) = h
+    | otherwise = menorLista t
+
+distância :: Grafo -> Int -> Int -> Int
+distância g u v = length (if sl /= [] then menorLista sl else [])
+    where
+        sl = (distânciaAux g (removeElem (removeElem (vértices g) u) v) u v)
 {-
     QUESTÃO 5
     dijkstra g v, devolve um par (d,p) de vetores contendo em d as menores distâncias de

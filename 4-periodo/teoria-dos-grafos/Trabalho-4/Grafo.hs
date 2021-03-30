@@ -22,7 +22,9 @@ module Grafo
         eSubgrafoInduzidoArestas,
         eClique,
         eCjIndependenteVertices,
-        uniao
+        uniao,
+
+        pertenceHaG
     ) where
 
 import GrafoListAdj

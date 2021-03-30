@@ -12,7 +12,11 @@ module Grafo2
         éGrafoCíclico,
         éCn,
         éGrafoCaminho,
-        éGrafoBipartido
+        éGrafoBipartido,
+
+        pertenceArestas,
+        removeElem,
+        geraTrilhas
     ) where
 
 import GrafoListAdj
@@ -30,12 +34,6 @@ import Grafo
 {-
     Funções globais
 -}
-
-pertenceHaG :: Eq a => [a] -> [a]-> Bool 
-pertenceHaG [] g = True
-pertenceHaG (hh:th) g
-    | elem hh g = pertenceHaG th g
-    | otherwise = False
 
 pertenceArestas :: [(Int, Int)] -> [(Int, Int)] -> Bool
 pertenceArestas [] ag = True
