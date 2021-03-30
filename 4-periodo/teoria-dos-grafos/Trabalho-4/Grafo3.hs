@@ -2,8 +2,13 @@ module Grafo3
     (
         éConexo,
         numCompConexas,
-        ciclo,
-        distância
+        -- ciclo,
+        distância,
+        -- dijkstra,
+        excentricidade,
+        raio,
+        diâmetro,
+        centro
     ) where
 
 import GrafoListAdj
@@ -87,8 +92,8 @@ numCompConexas g
     ponto de partida da busca.
 -}
 
-ciclo :: Grafo -> Int -> [[Int]]
-ciclo g u = [l | l <- (numCompConexasAux (arestas g)), éCiclo g l]
+-- ciclo :: Grafo -> Int -> [[Int]]
+-- ciclo g u
 
 {-
     QUESTÃO 4
@@ -118,6 +123,7 @@ distância :: Grafo -> Int -> Int -> Int
 distância g u v = length (if sl /= [] then menorLista sl else [])
     where
         sl = (distânciaAux g (removeElem (removeElem (vértices g) u) v) u v)
+
 {-
     QUESTÃO 5
     dijkstra g v, devolve um par (d,p) de vetores contendo em d as menores distâncias de
@@ -132,32 +138,32 @@ distância g u v = length (if sl /= [] then menorLista sl else [])
     excentricidade g v, devolve a excentricidade de v em g
 -}
 
--- excentricidade :: Grafo -> Int -> Int
--- excentricidade g v
+excentricidade :: Grafo -> Int -> Int
+excentricidade g v = maximum [distância g v vg | vg <- (removeElem (vértices g) v)]
 
 {-
     QUESTÃO 7
     raio g v, devolve o raio de g.
 -}
 
--- raio :: Grafo -> Int -> Int
--- raio g v
+raio :: Grafo -> Int -> Int
+raio g v = minimum [excentricidade g vg | vg <- (vértices g)]
 
 {-
     QUESTÃO 8
     diâmetro g v, devolve o diâmetro de g.
 -}
 
--- diâmetro :: Grafo -> Int -> Int
--- diâmetro g v
+diâmetro :: Grafo -> Int -> Int
+diâmetro g v = maximum [excentricidade g vg | vg <- (vértices g)]
 
 {-
     QUESTÃO 9
     centro g, devolve uma lista contendo os vértices no centro de g.
 -}
 
--- centro :: Grafo -> [Int]
--- centro g
+centro :: Grafo -> [Int]
+centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
 
 {-
     QUESTÃO 10
