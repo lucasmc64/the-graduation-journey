@@ -10,7 +10,13 @@ module Grafo3
         diâmetro,
         centro,
         éArticulação,
-        éPonte
+        éPonte,
+        conectividade,
+        éBiconexo,
+        sãoCaminhosDisjVértices,
+        -- trilhaEulerFleury,
+        -- trilhaEulerHierholzer,
+
     ) where
 
 import GrafoListAdj
@@ -46,7 +52,7 @@ import Grafo2
 
 éConexo :: Grafo -> Bool
 éConexo g
-    | éCaminho g (vértices g) = True 
+    | numCompConexas g > 1 = True 
     | otherwise = False
 
 {-
@@ -66,16 +72,16 @@ numCompConexasLista (l:t) v -- Não há critério de parada para caso a lista se
     | elem v l = 0
     | otherwise = 1 + numCompConexasLista t v
 
-numCompConexasAux :: [(Int, Int)] -> [[Int]]
-numCompConexasAux [] = []
-numCompConexasAux ((v1, v2):t)
+arestasParaVertices :: [(Int, Int)] -> [[Int]]
+arestasParaVertices [] = []
+arestasParaVertices ((v1, v2):t)
     | not (pertenceV1aL) && not (pertenceV2aL) = [v1, v2] : l
     | pertenceV1aL && not (pertenceV2aL) = (v2 : lComV1) : (removeElem l lComV1)
     | not (pertenceV1aL) && pertenceV2aL = (v1 : lComV2) : (removeElem l lComV2)
     | pertenceV1aL && pertenceV2aL && lComV1 /= lComV2 = (concat [lComV1, lComV2]) : (removeElem l lComV2)
     | otherwise = l
     where
-        l = numCompConexasAux t
+        l = arestasParaVertices t
         pertenceV1aL = numCompConexasPertence l v1
         pertenceV2aL = numCompConexasPertence l v2
         lComV1 = l!!(numCompConexasLista l v1)
@@ -83,8 +89,8 @@ numCompConexasAux ((v1, v2):t)
 
 numCompConexas :: Grafo -> Int
 numCompConexas g
-    | concat (numCompConexasAux (arestas g)) == vértices g = length (numCompConexasAux (arestas g))
-    | otherwise = length (numCompConexasAux (arestas g)) + length (vértices g) - length (concat (numCompConexasAux (arestas g)))
+    | concat (arestasParaVertices (arestas g)) == vértices g = length (arestasParaVertices (arestas g))
+    | otherwise = length (arestasParaVertices (arestas g)) + length (vértices g) - length (concat (arestasParaVertices (arestas g)))
 
 {-
     QUESTÃO 3
@@ -185,7 +191,7 @@ centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
 -}
 
 éPonte :: Grafo -> (Int, Int) -> Bool
-éPonte g (u,v)
+éPonte g (u, v)
     | numCompConexas (removeVértice g u) > numCompConexas g && numCompConexas (removeVértice g v) > numCompConexas g = True
     | otherwise = False
 
@@ -194,16 +200,23 @@ centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
     conectividade g devolve um número natural k para a conectividade de g.
 -}
 
--- conectividade :: Grafo -> Int
--- conectividade g
+conectividade :: Grafo -> Int
+conectividade g
+    | eTrivial g = 0
+    | elem True [éArticulação g v | v <- vértices g] || elem True [éPonte g (u, v) | (u, v) <- arestas g] = 1
+    | otherwise = 1 + conectividade ng
+    where
+        ng = removeVértice g ((vértices g)!!((seqGraus g)!!(grauMax g)))
 
 {-
     QUESTÃO 13
     éBiconexo g, devolve True se o grafo g é biconexo ou False, em caso contrário.
 -}
 
--- éBiconexo :: Grafo -> Bool
--- éBiconexo g
+éBiconexo :: Grafo -> Bool
+éBiconexo g
+    | conectividade g >= 2 = True 
+    | otherwise = False
 
 {-
     QUESTÃO 14
@@ -211,8 +224,16 @@ centro g = [v | v <- (vértices g), excentricidade g v == raio g v]
     namente disjuntos em vértices no grafo g ou False, em caso contrário.
 -}
 
--- sãoCaminhosDisjVértices :: Grafo -> [(Int, Int)] -> [(Int, Int)] -> Bool
--- sãoCaminhosDisjVértices g c1 c2
+contaVerticesIguais :: [Int] -> [Int] -> Int
+contaVerticesIguais [] c2 = 0
+contaVerticesIguais (c1h:c1t) c2
+    | elem c1h c2 = 1 + contaVerticesIguais c1t c2
+    | otherwise = contaVerticesIguais c1t c2
+
+sãoCaminhosDisjVértices :: Grafo -> [(Int, Int)] -> [(Int, Int)] -> Bool
+sãoCaminhosDisjVértices g c1 c2
+    | contaVerticesIguais (head (arestasParaVertices c1)) (head (arestasParaVertices c2)) <= 2 = True 
+    | otherwise = False
 
 {-
     QUESTÃO 15

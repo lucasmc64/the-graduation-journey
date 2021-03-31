@@ -5,8 +5,8 @@ main :: IO ()
 main =
     print "éConexo" >>
     print (éConexo (novoGrafo 4 [(1, 2), (1, 3), (1, 4), (3, 4)])) >>
-    print (éConexo (novoGrafo 3 [(1, 2), (1, 3)])) >>
-    print (éConexo (novoGrafo 5 [(1, 2), (1, 4), (3, 4), (4, 5)])) >>
+    print (éConexo (novoGrafo 3 [(1, 2)])) >>
+    print (éConexo (novoGrafo 5 [(1, 2), (1, 4), (3, 4)])) >>
     putStr "\n" >>
 
     print "numCompConexas" >>
@@ -67,4 +67,22 @@ main =
     print (éPonte (novoGrafo 4 [(1, 2), (2, 3), (3, 4)]) (2, 3)) >>
     print (éPonte (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) (3, 1)) >>
     print (éPonte (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)]) (3, 4)) >>
+    putStr "\n" >>
+
+    print "conectividade" >> 
+    print (conectividade (novoGrafo 4 [(1, 2), (2, 3), (3, 4)])) >>
+    print (conectividade (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    print (conectividade (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)])) >>
+    putStr "\n" >>
+
+    print "éBiconexo" >> 
+    print (éBiconexo (novoGrafo 4 [(1, 2), (2, 3), (3, 4), (4, 1)])) >>
+    print (éBiconexo (novoGrafo 3 [(1, 2), (1, 3), (2, 3)])) >>
+    print (éBiconexo (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)])) >>
+    putStr "\n" >>
+
+    print "sãoCaminhosDisjVértices" >> 
+    print (sãoCaminhosDisjVértices (novoGrafo 4 [(1, 2), (2, 3), (3, 4), (4, 1)]) [(1, 2), (2, 3)] [(1, 4), (4, 3)]) >>
+    print (sãoCaminhosDisjVértices (novoGrafo 3 [(1, 2), (1, 3), (2, 3)]) [(1, 2), (2, 3)] [(1, 3)]) >>
+    print (sãoCaminhosDisjVértices (novoGrafo 5 [(3, 1), (2, 3), (3, 4), (4, 5)]) [(1, 3), (3, 4)] [(3, 1), (3, 4)]) >>
     putStr "\n" -- >>
