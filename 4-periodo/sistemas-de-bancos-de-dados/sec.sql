@@ -8,7 +8,7 @@ SET search_path TO sec;
 
 CREATE TABLE empresa (
     idEmpresa SERIAL PRIMARY KEY,
-    cnpj INT,
+    cnpj INT UNIQUE NOT NULL,
     nomeEmpresa TEXT
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE promotora (
 
 CREATE TABLE prestadora (
     idEmpresa INT PRIMARY KEY,
-    idResponsavel INT 
+    idResponsavel INT NOT NULL
 );
 
 CREATE TABLE responsavel (
@@ -42,18 +42,24 @@ CREATE TABLE servico (
     custoServico INT,
     estadoServico TEXT, -- ???
     dataTerminoServico TIMESTAMP,
-    idResponsavel INT
+    idResponsavel INT NOT NULL
 );
 
 CREATE TABLE pessoa (
-
+    idPessoa SERIAL PRIMARY KEY,
+    cpf INT UNIQUE NOT NULL,
+    nomePessoa TEXT NOT NULL,
+    dataPagamentoInscricao TIMESTAMP,
+    tipoPessoa TEXT, -- ???
+    idEmpresa INT UNIQUE NOT NULL,
+    idResponsavel INT UNIQUE NOT NULL
 );
 
 CREATE TABLE tarefa (
     idTarefa SERIAL PRIMARY KEY,
     descricaoTarefa TEXT,
-    idPessoa INT,
-    idSuperTarefa INT
+    idPessoa INT NOT NULL,
+    idSuperTarefa INT NOT NULL
 );
 
 CREATE TABLE inscricao (
