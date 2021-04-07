@@ -65,18 +65,18 @@ CREATE TABLE servico (
 CREATE TABLE pessoa (
     idPessoa SERIAL PRIMARY KEY,
     cpf INT UNIQUE NOT NULL,
-    nomePessoa TEXT NOT NULL,
+    nomePessoa TEXT,
     dataPagamentoInscricao TIMESTAMP,
     tipoPessoa tipo_pessoa,
-    idEmpresa INT UNIQUE NOT NULL,
-    idResponsavel INT UNIQUE NOT NULL
+    idEmpresa INT,
+    idResponsavel INT
 );
 
 CREATE TABLE tarefa (
     idTarefa SERIAL PRIMARY KEY,
     descricaoTarefa TEXT,
     idPessoa INT NOT NULL,
-    idSuperTarefa INT NOT NULL
+    idSuperTarefa INT
 );
 
 CREATE TABLE inscricao (
