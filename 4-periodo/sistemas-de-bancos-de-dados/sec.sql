@@ -13,31 +13,46 @@ CREATE TABLE empresa (
 );
 
 CREATE TABLE patrocinadora (
-    idEmpresa INT,
+    idEmpresa INT PRIMARY KEY,
     valorPatrocinio INT,
     estadoLiberacao TEXT, -- ???
     dataLiberacao TIMESTAMP
 );
 
 CREATE TABLE organizadora (
-    idEmpresa INT
+    idEmpresa INT PRIMARY KEY
 );
 
 CREATE TABLE promotora (
-    idEmpresa INT
+    idEmpresa INT PRIMARY KEY
 );
 
 CREATE TABLE prestadora (
-    idEmpresa INT,
+    idEmpresa INT PRIMARY KEY,
     idResponsavel INT 
+);
+
+CREATE TABLE responsavel (
+    idResponsavel SERIAL PRIMARY KEY
+);
+
+CREATE TABLE servico (
+    idServico SERIAL PRIMARY KEY,
+
 );
 
 -- Chaves Estrangeiras
 
-ALTER TABLE "patrocinadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("id");
+-- -- Empresa
 
-ALTER TABLE "organizadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("id");
+ALTER TABLE "patrocinadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
 
-ALTER TABLE "promotora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("id");
+ALTER TABLE "organizadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
 
-ALTER TABLE "prestadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("id");
+ALTER TABLE "promotora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+
+ALTER TABLE "prestadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+
+-- -- Responsável
+
+ALTER TABLE "prestadora" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
