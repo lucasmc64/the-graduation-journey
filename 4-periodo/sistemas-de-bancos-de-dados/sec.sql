@@ -63,7 +63,8 @@ CREATE TABLE tarefa (
 );
 
 CREATE TABLE inscricao (
-
+    idPessoa INT PRIMARY KEY, -- ???
+    idTarefa INT PRIMARY KEY -- ???
 );
 
 -- Chaves Estrangeiras
@@ -84,5 +85,12 @@ ALTER TABLE "prestadora" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsav
 
 ALTER TABLE "servico" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
 
+ALTER TABLE "pessoa" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+
 -- -- Tarefa
 
+ALTER TABLE "tarefa" ADD FOREIGN KEY ("idPessoa") REFERENCES "pessoa" ("idPessoa");
+
+ALTER TABLE "tarefa" ADD FOREIGN KEY ("idSuperTarefa") REFERENCES "tarefa" ("idTarefa");
+
+-- -- Inscrição
