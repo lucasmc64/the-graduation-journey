@@ -4,6 +4,23 @@
 CREATE SCHEMA sec;
 SET search_path TO sec;
 
+-- Domínios
+
+-- -- Estados da Liberação
+
+CREATE DOMAIN estado_liberacao as CHAR(1)
+CHECK (estadoLiberacao IN ('P', 'L'));
+
+-- -- Estados do Serviço
+
+CREATE DOMAIN estado_servico as CHAR(1)
+CHECK (estadoServico IN ('P', 'C', 'E', 'G'));
+
+-- -- Tipo de Pessoas
+
+CREATE DOMAIN tipo_pessoa as CHAR(2)
+CHECK (tipoPessoa IN ('ES', 'PR', 'EP'));
+
 -- Tabelas
 
 CREATE TABLE empresa (
@@ -15,7 +32,7 @@ CREATE TABLE empresa (
 CREATE TABLE patrocinadora (
     idEmpresa INT PRIMARY KEY,
     valorPatrocinio INT,
-    estadoLiberacao TEXT, -- ???
+    estadoLiberacao estado_liberacao,
     dataLiberacao TIMESTAMP
 );
 
@@ -40,7 +57,7 @@ CREATE TABLE servico (
     idServico SERIAL PRIMARY KEY,
     descricaoServico TEXT,
     custoServico INT,
-    estadoServico TEXT, -- ???
+    estadoServico estado_servico,
     dataTerminoServico TIMESTAMP,
     idResponsavel INT NOT NULL
 );
@@ -50,7 +67,7 @@ CREATE TABLE pessoa (
     cpf INT UNIQUE NOT NULL,
     nomePessoa TEXT NOT NULL,
     dataPagamentoInscricao TIMESTAMP,
-    tipoPessoa TEXT, -- ???
+    tipoPessoa tipo_pessoa,
     idEmpresa INT UNIQUE NOT NULL,
     idResponsavel INT UNIQUE NOT NULL
 );
@@ -63,8 +80,9 @@ CREATE TABLE tarefa (
 );
 
 CREATE TABLE inscricao (
-    idPessoa INT PRIMARY KEY, -- ???
-    idTarefa INT PRIMARY KEY -- ???
+    idPessoa INT NOT NULL,
+    idTarefa INT NOT NULL,
+    PRIMARY KEY (idPessoa, idTarefa)
 );
 
 -- Chaves Estrangeiras
@@ -94,3 +112,7 @@ ALTER TABLE "tarefa" ADD FOREIGN KEY ("idPessoa") REFERENCES "pessoa" ("idPessoa
 ALTER TABLE "tarefa" ADD FOREIGN KEY ("idSuperTarefa") REFERENCES "tarefa" ("idTarefa");
 
 -- -- Inscrição
+
+ALTER TABLE "inscricao" ADD FOREIGN KEY ("idPessoa") REFERENCES "pessoa" ("idPessoa");
+
+ALTER TABLE "inscricao" ADD FOREIGN KEY ("idTarefa") REFERENCES "tarefa" ("idTarefa");
