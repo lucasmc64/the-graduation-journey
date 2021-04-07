@@ -1,6 +1,6 @@
--- DROP SCHEMA sec CASCADE;
--- Testar:
--- -- DROP SCHEMA IF EXISTS sec CASCADE;
+-- Cria Esquema
+
+DROP SCHEMA IF EXISTS sec CASCADE;
 CREATE SCHEMA sec;
 SET search_path TO sec;
 
@@ -9,17 +9,17 @@ SET search_path TO sec;
 -- -- Estados da Liberação
 
 CREATE DOMAIN estado_liberacao as CHAR(1)
-CHECK (estadoLiberacao IN ('P', 'L'));
+CHECK (VALUE IN ('P', 'L'));
 
 -- -- Estados do Serviço
 
 CREATE DOMAIN estado_servico as CHAR(1)
-CHECK (estadoServico IN ('P', 'C', 'E', 'G'));
+CHECK (VALUE IN ('P', 'C', 'E', 'G'));
 
 -- -- Tipo de Pessoas
 
 CREATE DOMAIN tipo_pessoa as CHAR(2)
-CHECK (tipoPessoa IN ('ES', 'PR', 'EP'));
+CHECK (VALUE IN ('ES', 'PR', 'EP'));
 
 -- Tabelas
 
@@ -89,30 +89,30 @@ CREATE TABLE inscricao (
 
 -- -- Empresa
 
-ALTER TABLE "patrocinadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+ALTER TABLE patrocinadora ADD FOREIGN KEY (idEmpresa) REFERENCES empresa (idEmpresa);
 
-ALTER TABLE "organizadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+ALTER TABLE organizadora ADD FOREIGN KEY (idEmpresa) REFERENCES empresa (idEmpresa);
 
-ALTER TABLE "promotora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+ALTER TABLE promotora ADD FOREIGN KEY (idEmpresa) REFERENCES empresa (idEmpresa);
 
-ALTER TABLE "prestadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("idEmpresa");
+ALTER TABLE prestadora ADD FOREIGN KEY (idEmpresa) REFERENCES empresa (idEmpresa);
 
 -- -- Responsável
 
-ALTER TABLE "prestadora" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+ALTER TABLE prestadora ADD FOREIGN KEY (idResponsavel) REFERENCES responsavel (idResponsavel);
 
-ALTER TABLE "servico" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+ALTER TABLE servico ADD FOREIGN KEY (idResponsavel) REFERENCES responsavel (idResponsavel);
 
-ALTER TABLE "pessoa" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+ALTER TABLE pessoa ADD FOREIGN KEY (idResponsavel) REFERENCES responsavel (idResponsavel);
 
 -- -- Tarefa
 
-ALTER TABLE "tarefa" ADD FOREIGN KEY ("idPessoa") REFERENCES "pessoa" ("idPessoa");
+ALTER TABLE tarefa ADD FOREIGN KEY (idPessoa) REFERENCES pessoa (idPessoa);
 
-ALTER TABLE "tarefa" ADD FOREIGN KEY ("idSuperTarefa") REFERENCES "tarefa" ("idTarefa");
+ALTER TABLE tarefa ADD FOREIGN KEY (idSuperTarefa) REFERENCES tarefa (idTarefa);
 
 -- -- Inscrição
 
-ALTER TABLE "inscricao" ADD FOREIGN KEY ("idPessoa") REFERENCES "pessoa" ("idPessoa");
+ALTER TABLE inscricao ADD FOREIGN KEY (idPessoa) REFERENCES pessoa (idPessoa);
 
-ALTER TABLE "inscricao" ADD FOREIGN KEY ("idTarefa") REFERENCES "tarefa" ("idTarefa");
+ALTER TABLE inscricao ADD FOREIGN KEY (idTarefa) REFERENCES tarefa (idTarefa);
