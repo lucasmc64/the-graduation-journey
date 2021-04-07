@@ -38,6 +38,25 @@ CREATE TABLE responsavel (
 
 CREATE TABLE servico (
     idServico SERIAL PRIMARY KEY,
+    descricaoServico TEXT,
+    custoServico INT,
+    estadoServico TEXT, -- ???
+    dataTerminoServico TIMESTAMP,
+    idResponsavel INT
+);
+
+CREATE TABLE pessoa (
+
+);
+
+CREATE TABLE tarefa (
+    idTarefa SERIAL PRIMARY KEY,
+    descricaoTarefa TEXT,
+    idPessoa INT,
+    idSuperTarefa INT
+);
+
+CREATE TABLE inscricao (
 
 );
 
@@ -56,3 +75,8 @@ ALTER TABLE "prestadora" ADD FOREIGN KEY ("idEmpresa") REFERENCES "empresa" ("id
 -- -- Responsável
 
 ALTER TABLE "prestadora" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+
+ALTER TABLE "servico" ADD FOREIGN KEY ("idResponsavel") REFERENCES "responsavel" ("idResponsavel");
+
+-- -- Tarefa
+
