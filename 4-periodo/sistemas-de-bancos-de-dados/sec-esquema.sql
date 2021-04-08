@@ -23,10 +23,14 @@ CHECK (VALUE IN ('ES', 'PR', 'EP'));
 
 -- Tabelas
 
+CREATE TABLE responsavel (
+    idResponsavel BIGINT PRIMARY KEY
+);
+
 CREATE TABLE empresa (
     idEmpresa SERIAL PRIMARY KEY,
-    cnpj INT UNIQUE NOT NULL,
-    nomeEmpresa TEXT
+    cnpj BIGINT UNIQUE NOT NULL,
+    nomeEmpresa TEXT 
 );
 
 CREATE TABLE patrocinadora (
@@ -46,11 +50,17 @@ CREATE TABLE promotora (
 
 CREATE TABLE prestadora (
     idEmpresa INT PRIMARY KEY,
-    idResponsavel INT NOT NULL
+    idResponsavel BIGINT NOT NULL
 );
 
-CREATE TABLE responsavel (
-    idResponsavel SERIAL PRIMARY KEY
+CREATE TABLE pessoa (
+    idPessoa SERIAL PRIMARY KEY,
+    cpf BIGINT UNIQUE NOT NULL,
+    nomePessoa TEXT,
+    dataPagamentoInscricao TIMESTAMP,
+    tipoPessoa tipo_pessoa,
+    idEmpresa INT,
+    idResponsavel BIGINT NOT NULL
 );
 
 CREATE TABLE servico (
@@ -59,17 +69,7 @@ CREATE TABLE servico (
     custoServico INT,
     estadoServico estado_servico,
     dataTerminoServico TIMESTAMP,
-    idResponsavel INT NOT NULL
-);
-
-CREATE TABLE pessoa (
-    idPessoa SERIAL PRIMARY KEY,
-    cpf INT UNIQUE NOT NULL,
-    nomePessoa TEXT,
-    dataPagamentoInscricao TIMESTAMP,
-    tipoPessoa tipo_pessoa,
-    idEmpresa INT,
-    idResponsavel INT
+    idResponsavel BIGINT NOT NULL
 );
 
 CREATE TABLE tarefa (
