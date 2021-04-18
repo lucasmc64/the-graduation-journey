@@ -146,12 +146,12 @@ ERROR:
 	# Funcao para converter string para numero
 strToInt:
 	## Salvar contexto na pilha
+	addi $sp, $sp, -20
 	sw $ra, 0($sp)
 	sw $s0, 4($sp)
 	sw $s1, 8($sp)
 	sw $s6, 12($sp)
 	sw $s7, 16($sp)
-	addi $sp, $sp, -20
 	
 	add $s0, $zero, $a0 # Endereco do array
 	add $s1, $zero, $a1 # Numero de caracteres no array (-1 só para a condicao do FOR)
@@ -183,12 +183,12 @@ END_FOR_STI:
 	add $v0, $zero, $s7 # "Retorna" o valor resultante
 
 	## Restaurar contexto da pilha
-	addi $sp, $sp, 20
 	lw $ra, 0($sp)
 	lw $s0, 4($sp)
 	lw $s1, 8($sp)
 	lw $s6, 12($sp)
 	lw $s7, 16($sp)
+	addi $sp, $sp, 20
 	
 	## Voltar para o programa principal
 	jr $ra
@@ -199,11 +199,11 @@ END_FOR_STI:
 
 potencia:
 	# Salvar contexto na pilha
+	addi $sp, $sp, -16
 	sw $s0, 0($sp)
 	sw $s1, 4($sp)
 	sw $s2, 8($sp)
 	sw $ra, 12($sp)
-	addi $sp, $sp, -16
 
 	add $s0, $zero, $a0 # Carrega a base
 	add $s1, $zero, $a1 # Carrega o expoente
@@ -226,11 +226,11 @@ END_FOR_POT:
 	add $v0, $zero, $s2 # "Retorna" o valor resultante
 	#printInt($s1)
 	# Restaurar contexto da pilha
-	addi $sp, $sp, 16
 	lw $s0, 0($sp)
 	lw $s1, 4($sp)
 	lw $s2, 8($sp)
 	lw $ra, 12($sp)
+	addi $sp, $sp, 16
 	
 	jr $ra
 	
