@@ -123,15 +123,42 @@ END_DO_WHILE1:
 	## Salvar na memoria
 	sw $v0, 0($s1) # Guardar o numero convertido no array
 	addi $s1, $s1, 4 # Ir para a proxima posicao do array
-	printInt($v0)
-	printStr(enter)
+	# printInt($v0)
+	# printStr(enter)
 	
 JUMP1:
 	bne $s5, $zero, START_READ # Se ainda houver elementos no arquivo, continue lendo
 	
-	## Imprimir o array
+	## Ordenar o array
+	la 	$a0, array		# &v
+	add	$a1, $zero, $zero	# inicio do vetor
+	la	$t0, tamanho
+	lw	$t0, 0($t0)
+	addi	$a2, $t0, -1		# fim do vetor
 	
-	closeFile($s0) # Fecha o arquivo
+	jal	quicksort
+	
+	## Imprimir o array
+	add	$s1, $a0, $zero		# array
+	add	$t0, $zero, $zero	# iterador
+	la	$t1, tamanho
+	lw	$t1, 0($t1)
+WHILE1:
+	slt	$t2, $t0, $t1
+	beq	$t2, $zero, END_WHILE1
+	
+	lw	$t3, 0($s1)
+	printInt($t3)
+	printStr(enter)
+	
+	addi	$s1, $s1, 4
+	addi	$t0, $t0, 1
+	j	WHILE1
+	
+END_WHILE1:
+	
+	## Fechar o arquivo
+	closeFile($s0)
 
 	endProgram()
 
@@ -146,12 +173,12 @@ ERROR:
 	# Funcao para converter string para numero
 strToInt:
 	## Salvar contexto na pilha
-	addi $sp, $sp, -20
 	sw $ra, 0($sp)
-	sw $s0, 4($sp)
-	sw $s1, 8($sp)
-	sw $s6, 12($sp)
-	sw $s7, 16($sp)
+	sw $s0, -4($sp)
+	sw $s1, -8($sp)
+	sw $s6, -12($sp)
+	sw $s7, -16($sp)
+	addi $sp, $sp, -20
 	
 	add $s0, $zero, $a0 # Endereco do array
 	add $s1, $zero, $a1 # Numero de caracteres no array (-1 só para a condicao do FOR)
@@ -183,12 +210,12 @@ END_FOR_STI:
 	add $v0, $zero, $s7 # "Retorna" o valor resultante
 
 	## Restaurar contexto da pilha
-	lw $ra, 0($sp)
-	lw $s0, 4($sp)
-	lw $s1, 8($sp)
-	lw $s6, 12($sp)
-	lw $s7, 16($sp)
 	addi $sp, $sp, 20
+	lw $ra, 0($sp)
+	lw $s0, -4($sp)
+	lw $s1, -8($sp)
+	lw $s6, -12($sp)
+	lw $s7, -16($sp)
 	
 	## Voltar para o programa principal
 	jr $ra
@@ -199,11 +226,11 @@ END_FOR_STI:
 
 potencia:
 	# Salvar contexto na pilha
-	addi $sp, $sp, -16
 	sw $s0, 0($sp)
-	sw $s1, 4($sp)
-	sw $s2, 8($sp)
-	sw $ra, 12($sp)
+	sw $s1, -4($sp)
+	sw $s2, -8($sp)
+	sw $ra, -12($sp)
+	addi $sp, $sp, -16
 
 	add $s0, $zero, $a0 # Carrega a base
 	add $s1, $zero, $a1 # Carrega o expoente
@@ -226,12 +253,136 @@ END_FOR_POT:
 	add $v0, $zero, $s2 # "Retorna" o valor resultante
 	#printInt($s1)
 	# Restaurar contexto da pilha
-	lw $s0, 0($sp)
-	lw $s1, 4($sp)
-	lw $s2, 8($sp)
-	lw $ra, 12($sp)
 	addi $sp, $sp, 16
+	lw $s0, 0($sp)
+	lw $s1, -4($sp)
+	lw $s2, -8($sp)
+	lw $ra, -12($sp)
 	
 	jr $ra
 	
 	
+	
+quicksort:
+	# a0 - &v
+	# a1 - iniVet
+	# a2 - fimVet
+	
+	# Salva o contexto na pilha
+	sw	$ra,   0($sp)
+	sw	$a1,  -4($sp)
+	sw	$a2,  -8($sp)
+	sw	$s0, -12($sp)
+	sw	$s1, -16($sp)
+	sw	$s2, -20($sp)
+	sw	$s3, -24($sp)
+	sw	$s4, -28($sp)
+	sw	$s6, -32($sp)
+	sw	$s7, -36($sp)
+	
+	addi	$sp, $sp, -40
+	# --------------------------
+	# Copias do iniVet e fimVet
+	add	$s6, $zero, $a1		# s6 <- iniVet
+	add	$s7, $zero, $a2		# s7 <- fimVet
+	
+	
+	add	$s0, $zero, $s6		# s0 <- i (iniVet)
+	add	$s1, $zero, $s7		# s1 <- j (fimVet)
+	
+	addi	$t0, $zero, 4
+	mul	$t1, $t0, $s6
+	add	$s2, $a0, $t1		# s2 <- &v[i] (iniVet)
+	
+	mul	$t2, $t0, $s7
+	add	$s3, $a0, $t2		# s3 <- &v[j] (fimVet)
+	
+	add	$t0, $s6, $s7
+	addi	$t1, $zero, 2
+	div	$t0, $t1
+	mflo	$t2
+	addi	$t0, $zero, 4
+	mul	$t1, $t0, $t2
+	add	$t3, $a0, $t1		
+	lw	$s4, 0($t3)		# s4 <- pivo (v[(IniVet + FimVet) div 2])
+	
+WHILE_Q1:	
+	sle	$t0, $s0, $s1		# while(i <= j)
+	beq	$t0, $zero, SAI_WHILE_Q1
+	# corpo while1 ------------
+	
+WHILE_Q2:	
+	lw	$t0, 0($s2)		# while(v[i] < pivo)
+	slt	$t1, $t0, $s4
+	beq	$t1, $zero, SAI_WHILE_Q2
+	
+	addi	$s0, $s0, 1		# i <- i + 1
+	addi	$s2, $s2, 4		# &v[i] ++
+	
+	j	WHILE_Q2
+SAI_WHILE_Q2:
+
+WHILE_Q3:	
+	lw	$t0, 0($s3)		# while(v[j] > pivo)
+	sgt	$t1, $t0, $s4
+	beq	$t1, $zero, SAI_WHILE_Q3
+	
+	addi	$s1, $s1, -1		# j <- j - 1
+	addi	$s3, $s3, -4		# &v[j] --
+	
+	j	WHILE_Q3
+SAI_WHILE_Q3:
+
+IF_Q1:	sle	$t0, $s0, $s1		# if(i <= j)
+	beq	$t0, $zero, SAI_IF_Q1
+	# corpo if ---------------
+	# aux  <- v[i]
+    	# v[i] <- v[j]
+	# v[j] <- aux
+	lw	$t0, 0($s2)
+	lw	$t1, 0($s3)
+	sw	$t1, 0($s2)
+	sw	$t0, 0($s3)
+	
+	addi	$s0, $s0, 1		# i <- i + 1
+	addi	$s2, $s2, 4		# &v[i]++
+	addi	$s1, $s1, -1		# j <- j - 1
+	addi	$s3, $s3, -4		# &v[j]--
+	
+	#-------------------------
+SAI_IF_Q1:
+	
+	# fim while1 -------------
+SAI_WHILE_Q1:	
+IF_Q2:	slt	$t0, $s6, $s1		# if(iniVet < j)
+	beq	$t0, $zero, SAI_IF_Q2
+	
+	add	$a1, $zero, $s6
+	add	$a2, $zero, $s1
+	
+	jal	quicksort		# quicksort(v, iniVet, j)	
+SAI_IF_Q2:
+IF_Q3:	slt	$t0, $s0, $s7		# if(i < fimVet)
+	beq	$t0, $zero, SAI_IF_Q3
+	
+	add	$a1, $zero, $s0
+	add	$a2, $zero, $s7
+	
+	jal	quicksort		# quicksort(v, i, fimVet)
+SAI_IF_Q3:	
+	
+	# Restaura o contexto da pilha
+	addi	$sp, $sp, 40
+	
+	lw	$ra,   0($sp)
+	lw	$a1,  -4($sp)
+	lw	$a2,  -8($sp)
+	lw	$s0, -12($sp)
+	lw	$s1, -16($sp)
+	lw	$s2, -20($sp)
+	lw	$s3, -24($sp)
+	lw	$s4, -28($sp)
+	lw	$s6, -32($sp)
+	lw	$s7, -36($sp)
+	
+	jr	$ra
