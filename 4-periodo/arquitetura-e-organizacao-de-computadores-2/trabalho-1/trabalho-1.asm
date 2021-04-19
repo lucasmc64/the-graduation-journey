@@ -5,6 +5,9 @@
 # 	O programa deve ler um arquivo texto chamado numeros.csv (nos arquivos do grupo) e ordena-los.  
 # 	O programa deve ainda possuir uma funcao que converte uma string de numeros para um inteiro.
 #
+# Alunos: Lucas Mattos Vieira e Lucas Marçal Coutinho
+# Matriculas: 11911BCC015 e 11911BCC012
+#
 # DDA: 11-04-2021
 
 .macro printStr(%str)
