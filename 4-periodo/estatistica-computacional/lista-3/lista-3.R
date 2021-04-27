@@ -80,34 +80,42 @@ vitorias / n
 
 # Exercício 4
 
+## Sequência escolhida por Bran
 bran <- c(0, 1, 0)
+## Sequência escolhida por Arya
 arya <- c(0, 0, 1)
 
+## Array para armazenar os resultados
 bran_vs_aria <- c()
+## Via Monte Carlo,  realizar o experimento um número grande de vezes
 for(i in 1:n) {
+  ## De cara, sorteia-se os três primeiros valores da sequência
   sequencia <- sample(0:1, size = 3, replace = TRUE)
   while (TRUE) {
+    ## Se os três últimos elementos da sequência forem iguais aos escolhidos por Bran ou Arya, para
     if(sum(bran == sequencia[(length(sequencia) - 2) : length(sequencia)]) == 3) {
       break
     } else if(sum(arya == sequencia[(length(sequencia) - 2) : length(sequencia)]) == 3) {
       break
     }
+    ## Se os três últimos elementos da sequência forem diferentes dos escolhidos, adiciona mais um elemento no final e realiza novamente o teste
     sequencia <- c(sequencia, sample(0:1, size = 1, replace = TRUE))
   }
   
-  sequencia
-  
+  ## Foi o Bran que venceu?
   if(sum(bran == sequencia[(length(sequencia) - 2) : length(sequencia)]) == 3) {
+    ## Se sim, adiciona Bran no array de resultados
     bran_vs_aria <- c(bran_vs_aria, 'bran')
   } else {
+    ## Se não, adiciona Arya no array de resultados
     bran_vs_aria <- c(bran_vs_aria, 'arya')
   }
 }
 
+## Conta quantas vezes a Arya ganhou
 vencedor_stark <- sum(bran_vs_aria == 'arya')
+## Calcula a proporção de vezes em que a Arya ganhou
 vencedor_stark / n
-
-
 
 # Exercício 5
 
