@@ -119,15 +119,128 @@ vencedor_stark / n
 
 # Exercício 5
 
+## Letra A
 
+### Apesar desse Yoda ser muito suspeito, concordo com ele.
+### Como Luke está partindo da origem, o único jeito de ele voltar para ela novamente é ele andar para a esquerda a mesma quantidade que andar para a direita (os passos se anulam).
+### Suponha que:
+### #D: Quantidade de passos para a direita
+### #E: Quantidade de passos para a esquerda
+### N: Quantidade total de passos
+### #D = #E (Luke dá para a direita e esquerda a mesma quantidade de passos)
+###    N = #D + #E (Quantidade de passos)
+### -> N = #D + #D (Como são o mesmo valor, é permitida a substituição)
+### -> N = 2 * #D (2 vezes qualquer número é um número par, provando que para Luke voltar à origem é necessário que o número de passos dados seja par)
+
+## Letra B
+
+## Suponha:
+## D = +1
+## E = -1
+## Para Like conseguir voltar a origem, a soma dos passos deve ser 0
+
+## Função para calcular a probabilidade de Luke conseguir voltar para a origem
+lukeContraMonteCarlo <- function (k) {
+  ## Considere K como o número de passos dados
+  
+  ## Contador de quantas vezes Luke conseguiu voltar para a origem
+  luke_na_origem_da_forca <- 0
+  
+  ## Via Monte Carlo, Luke se vê no centro das Forças negativas e positivas da reta N vezes
+  for(i in 1:n) {
+    ## Luke dá K passos
+    passos_luke = sample(c(1,-1), size = k, replace = TRUE)
+    ## Soma os passos da direita com os da esquerda
+    soma_passos_luke = sum(passos_luke)
+    ## Luke parou na origem? 
+    if (soma_passos_luke == 0){
+      ## Se sim, incrementa o contador
+      luke_na_origem_da_forca <- luke_na_origem_da_forca + 1
+    }
+  }
+  
+  return (luke_na_origem_da_forca / n)
+}
+
+### I)
+
+lukeContraMonteCarlo(4)
+
+### II)
+
+lukeContraMonteCarlo(6)
+
+### III)
+
+lukeContraMonteCarlo(10)
+
+### IV)
+
+lukeContraMonteCarlo(20)
 
 # Exercício 6
 
+# Vamos aproximar o resultado de integrais por meio de Monte Carlo através da média da aplicação da função em valores aleatórios dentro do intervalo de integração
 
+estimaIntegral <- function(int_inf, int_sup, funcG) {
+  ### Sorteia números de -1 a 2 (intervalo de integração)
+  nums_sorteados <- runif(n, int_inf, int_sup)
+  
+  ### Aplicamos G aos números sorteados dentro do intervalo de integração
+  resultados_funcao <- funcG(nums_sorteados)
+  
+  ### Média dos resultados da função
+  media_funcao <-(sum(resultados_funcao) / n)
+  
+  ### Normalizando resultado
+  resultado <- (int_sup - int_inf) * media_funcao
+  
+  return(resultado)
+}
+
+## Integral de -1 até 2 de ((1 * e^((-x^2)/2))/sqrt(2 * PI))
+
+### Função dentro da integral
+g <- function(x) {
+  return((1 * exp(1)^(-(x ^ 2)/2))/sqrt(2 * pi))
+}
+
+estimaIntegral(-1, 2, g)
+
+## Integral de 0 até PI de (cos^2(x))
+
+### Função dentro da integral
+g <- function(x) {
+  return((cos(x)) ^ 2)
+}
+
+estimaIntegral(0, pi, g)
 
 # Exercício 7
 
+## Função que estima a probabilidade de uma variável aleatória X ser 2: 
+## P (X = 1) = 1/3 e P (X = 2) = 2/3.
+calculaProporcaoX <- function(k) {
+  ## Sorteia números entre 0 e 1
+  xs <- runif(k, 0, 1)
+  ## Calcula quantos valores caíram em 2/3 do intervalo
+  xs_que_sao_2 <- sum(xs < 2/3)
+  ## Calcula a proporção dos valores que assumimos representar P(X = 2)
+  proporcao_do_2 <- xs_que_sao_2 / k
+  return(proporcao_do_2)
+}
 
+## K = 100
+
+calculaProporcaoX(100)
+
+## K = 1000
+
+calculaProporcaoX(1000)
+
+## K = 10000
+
+calculaProporcaoX(10000)
 
 # Exercício 8
 
