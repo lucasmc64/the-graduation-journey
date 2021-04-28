@@ -1,5 +1,19 @@
+#GRUPO
+# Nayara Terezinha Nunes -11911BCC006
+# Thaynara Silva Pinto - 11711BCC039
+# Victor Hugo Marra Araujo - 11721BCC041
+# Lucas Marçal Coutinho - 11911BCC012
 
+
+
+
+
+# Variáveis globais
 n <- 10000
+
+
+
+
 
 # Exercício 1
 
@@ -13,6 +27,10 @@ soma_lancamentos <- lancamento_1 + lancamento_2
 sete_e_onze <- sum(soma_lancamentos == 7 | soma_lancamentos == 11)
 ## Calcula a proporção de 'acertos'
 sete_e_onze / n
+
+
+
+
 
 # Exercício 2
 
@@ -42,6 +60,10 @@ for(num in dado_escolhe_urna) {
 bolas_vermelhas = sum(bolas_escolhidas == 'vermelha')
 ## Calcula a proporção de 'acertos'
 bolas_vermelhas / n
+
+
+
+
 
 # Exercício 3
 
@@ -77,6 +99,10 @@ for(i in 1:n) {
 
 ## Calcula-se a proporção de vitórias entre todos os experimentos
 vitorias / n
+
+
+
+
 
 # Exercício 4
 
@@ -116,6 +142,10 @@ for(i in 1:n) {
 vencedor_stark <- sum(bran_vs_aria == 'arya')
 ## Calcula a proporção de vezes em que a Arya ganhou
 vencedor_stark / n
+
+
+
+
 
 # Exercício 5
 
@@ -178,6 +208,10 @@ lukeContraMonteCarlo(10)
 
 lukeContraMonteCarlo(20)
 
+
+
+
+
 # Exercício 6
 
 # Vamos aproximar o resultado de integrais por meio de Monte Carlo através da média da aplicação da função em valores aleatórios dentro do intervalo de integração
@@ -216,6 +250,10 @@ g <- function(x) {
 
 estimaIntegral(0, pi, g)
 
+
+
+
+
 # Exercício 7
 
 ## Função que estima a probabilidade de uma variável aleatória X ser 2: 
@@ -242,10 +280,94 @@ calculaProporcaoX(1000)
 
 calculaProporcaoX(10000)
 
+
+
+
+
 # Exercício 8
+
+## Função para gerar um valor aleatório típico de Y
+geraY <- function(p, k) {
+  ## Realiza K primeiros lançamentos para saber se já temos k sucessos
+  lancamentos <- sample(c(0, 1), size = k, replace = TRUE, prob = c(1 - p, p))
+  ## Enquanto não tivermos K sucessos, realizamos mais um lançamento e verificamos novamente
+  while(sum(lancamentos) != k) {
+    ## Realiza mais um lançamento
+    lancamentos <- c(lancamentos, sample(c(0, 1), size = 1, replace = TRUE, prob = c(1 - p, p)))
+  }
+  ## O resultado é quantos lançamentos foram necessários para obtermos os K sucessos
+  resultado <- length(lancamentos)
+  
+  return(resultado)
+}
+
+## Parâmetros dados pela questão
+p <- 4/7
+k <- 3
+
+## Contador de quantos Ys gerados foram maior que 8 em N experimentos
+ys <- 0
+## Via Monte Carlo, fazemos N experimentos
+for (i in 1:n) {
+  ## Gera um valor típico de Y
+  y <- geraY(p, k)
+  ## Se Y maior que 8, incrementa o contador
+  if(y > 8) {
+    ys <- ys + 1
+  }
+}
+## Calcula a proporção de Ys maiores que 8 em relação ao N gerados
+y_maior_que_8 <- y / n
+
+
 
 
 
 # Exercício 9
 
+## Função genérica que calcula a equação do 2º grau
+raizesDeX <- function(a, b, c) {
+  delta <- (b^2) - 4 * a * c
+  
+  x <- c()
+  if(delta >= 0) {
+    x1 <- ((-b) + sqrt(delta)) / (2 * a)
+    x2 <- ((-b) - sqrt(delta)) / (2 * a)
+    x <- c(x1, x2)
+  }
+  
+  return(x)
+}
 
+## Utilizado o Método da Transformação Inversa
+## F(x) = y = (x^2 + x) / 2, 0 <= x <= 1
+## 2 * y = x^2 + x (INVERSA)... ou x^2 + x - (2 * y) = 0
+
+## Sorteia N Ys
+ys <- runif(n, 0, 1)
+
+## Contador de Xs gerados no intervalo 0 <= x <= 1
+xs_no_intevalo <- c()
+## Confia no Monte Carlo
+for (i in 1:n) {
+  ## Gera as raízes de X para cada Y
+  xs <- raizesDeX(1, 1, -(2 * ys[i]))
+  
+  ## Se o delta não for negativo, há raízes reais
+  if(!is.null(xs)) {
+    ## Se as raízes estão dentro do intervalo 0 <= x <= 1, adiciona no array de resultados
+    if((0 <= xs[1]) && (xs[1] <= 1)) {
+      xs_no_intevalo <- c(xs_no_intevalo, xs[1])
+    } else if((0 <= xs[2]) && (xs[2] <= 1)) {
+      xs_no_intevalo <- c(xs_no_intevalo, xs[1])
+    }
+  }
+}
+
+## Calcula quantos valores são menores que 0.7
+xs_menor_07 <- sum(xs_no_intevalo < 0.7)
+## Calcula a proporção dos valores menores que 0.7
+proporcao_xs <- xs_menor_07 / n
+
+## Calcula a esperança de X
+esperanca <- sum(xs_no_intevalo) / n
