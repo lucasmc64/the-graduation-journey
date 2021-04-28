@@ -227,7 +227,7 @@ estimaIntegral <- function(int_inf, int_sup, funcG) {
   media_funcao <-(sum(resultados_funcao) / n)
   
   ### Normalizando resultado
-  resultado <- (int_sup - int_inf) * media_funcao
+  resultado <- abs(int_sup - int_inf) * media_funcao
   
   return(resultado)
 }
