@@ -167,7 +167,7 @@ vencedor_stark / n
 ## Suponha:
 ## D = +1
 ## E = -1
-## Para Like conseguir voltar a origem, a soma dos passos deve ser 0
+## Para Luke conseguir voltar a origem, a soma dos passos deve ser 0
 
 ## Função para calcular a probabilidade de Luke conseguir voltar para a origem
 lukeContraMonteCarlo <- function (k) {
@@ -317,7 +317,7 @@ for (i in 1:n) {
   }
 }
 ## Calcula a proporção de Ys maiores que 8 em relação ao N gerados
-y_maior_que_8 <- y / n
+y_maior_que_8 <- ys / n
 
 
 
