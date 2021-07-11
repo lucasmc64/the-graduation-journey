@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1615940176 source:/home/lucasmc64/Dev/shell/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<sys/types.h>
+	<dirent.h>
+	<limits.h>
+	<time.h>
+
