@@ -1,0 +1,2 @@
+IDE utilizada: Netbeans 12.4
+Sistema operacional utilizado: Pop!_OS 20.04 (distro baseada no Ubuntu 20.04)
