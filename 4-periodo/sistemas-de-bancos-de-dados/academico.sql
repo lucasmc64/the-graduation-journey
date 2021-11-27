@@ -55,7 +55,7 @@ CREATE TABLE turpro (
     idprof INT NOT NULL,
     PRIMARY KEY (idtur, idprof)
 );
-
+status_types
 CREATE TABLE historico (
     idtur INT NOT NULL,
     idalu INT NOT NULL,
