@@ -12,7 +12,7 @@
 {-
     Observação: 
         A partir do número 4000 a representação romana usa um caractere especial.
-        Por esse motivo não houve como implementar a convesão para números iguais ou maiores que 4000.
+        Por esse motivo não houve como implementar a conversão para números iguais ou maiores que 4000.
 -}
 
 disponivel :: [Int]
