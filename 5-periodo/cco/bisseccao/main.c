@@ -10,7 +10,7 @@ double calc_x(double a, double b) {
   return (a + b) / 2.0;
 }
 
-void bisseccao_aux(int k, double a, double b, double tolerance) {
+void f_zero_aux(int k, double a, double b, double tolerance) {
   double f_a = f(a);
   double f_b = f(b);
   double x = calc_x(a, b);
@@ -21,15 +21,15 @@ void bisseccao_aux(int k, double a, double b, double tolerance) {
   if(fabs(f_x) <= tolerance) {
     return;
   } else if(f_a * f_x < 0) {
-    bisseccao_aux(k + 1, a, x, tolerance);
+    f_zero_aux(k + 1, a, x, tolerance);
   } else if(f_x * f_b < 0) {
-    bisseccao_aux(k + 1, x, b, tolerance);
+    f_zero_aux(k + 1, x, b, tolerance);
   }
 }
 
-void bisseccao(double a, double b, double tolerance) {
+void f_zero(double a, double b, double tolerance) {
   printf("\n|%-10s|%-10s|%-10s|%-10s|%-10s|%-10s|%-10s|\n", "k", "a", "b", "f(a)", "f(b)", "x", "f(x)");
-  bisseccao_aux(0, a, b, tolerance);
+  f_zero_aux(0, a, b, tolerance);
 }
 
 int main() {
@@ -47,7 +47,7 @@ int main() {
   printf("tolerance = ");
   scanf("%lf", &tolerance);
 
-  bisseccao(a, b, tolerance);
+  f_zero(a, b, tolerance);
 
   return 0;
 }
