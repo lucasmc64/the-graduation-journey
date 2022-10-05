@@ -23,7 +23,7 @@ void f_zero_aux(int k, double a, double b, double xk, double xkp1, double tolera
  
   printf("|%-10d|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|\n", k, a, b, f_a, f_b, xkp1, f_xkp1);
 
-  if(fabs(f_xkp1) <= tolerance) {// Adicionar "|(xk – xk+1)/xk <= tolerância"
+  if(fabs(f_xkp1) <= tolerance || fabs((f(xk, degree, consts) - f_xkp1) / xk) <= tolerance) {
     printf("\nRaiz: %lf\n", xkp1);
     return;
   } else if(f_a * f_xkp1 < 0) {
@@ -52,9 +52,23 @@ void f_zero_aux(int k, double a, double b, double xk, double xkp1, double tolera
 }
 
 void f_zero(double a, double b, double tolerance, int degree, int *consts) {
+  if(f(a, degree, consts) * f(b, degree, consts) > 0) {
+    printf("Nao existem raizes reais para esta funcao no intervalo dado\n");
+    return;
+  }
+
   printf("\n|%-10s|%-10s|%-10s|%-10s|%-10s|%-10s|%-10s|\n", "k", "a", "b", "f(a)", "f(b)", "xkp1", "f(xkp1)");
 
-  f_zero_aux(0, a, b, a, calc_x(a, b, f(a, degree, consts), f(b, degree, consts)), tolerance, degree, consts);
+  f_zero_aux(
+    0, 
+    a, 
+    b, 
+    a, 
+    calc_x(a, b, f(a, degree, consts), f(b, degree, consts)), 
+    tolerance, 
+    degree, 
+    consts
+  );
 }
 
 int main() {
