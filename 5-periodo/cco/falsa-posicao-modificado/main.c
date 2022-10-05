@@ -14,25 +14,15 @@ void f_zero_aux(int k, double a, double b, double xk, double xkp1, double tolera
   double f_a = f(a);
   double f_b = f(b);
   double f_xkp1 = f(xkp1);
-  double xkp2 =
-    f(xk) * f_xkp1 > 0 
-    ?
-      f_a * f_xkp1 < 0
-      ?
-        calc_x(a, b, f_a / 2.0, f_b)
-      :
-        calc_x(a, b, f_a, f_b / 2.0)
-    :
-      calc_x(a, b, f_a, f_b);
-
+ 
   printf("|%-10d|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|\n", k, a, b, f_a, f_b, xkp1, f_xkp1);
 
   if(fabs(f_xkp1) <= tolerance) {
     return;
   } else if(f_a * f_xkp1 < 0) {
-    f_zero_aux(k + 1, a, xkp1, xkp1, xkp2, tolerance);
+    f_zero_aux(k + 1, a, xkp1, xkp1, f(xk) * f_xkp1 > 0 ? calc_x(a, xkp1, f_a / 2.0, f_xkp1) : calc_x(a, b, f_a, f_b), tolerance);
   } else if(f_xkp1 * f_b < 0) {
-    f_zero_aux(k + 1, xkp1, b, xkp1, xkp2, tolerance);
+    f_zero_aux(k + 1, xkp1, b, xkp1, f(xk) * f_xkp1 > 0 ? calc_x(xkp1, b, f_xkp1, f_b / 2.0) : calc_x(a, b, f_a, f_b), tolerance);
   }
 }
 
