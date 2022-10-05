@@ -23,7 +23,7 @@ void f_zero_aux(int k, double a, double b, double xk, double xkp1, double tolera
  
   printf("|%-10d|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|%-10lf|\n", k, a, b, f_a, f_b, xkp1, f_xkp1);
 
-  if(fabs(f_xkp1) <= tolerance) {
+  if(fabs(f_xkp1) <= tolerance) {// Adicionar "|(xk – xk+1)/xk <= tolerância"
     printf("\nRaiz: %lf\n", xkp1);
     return;
   } else if(f_a * f_xkp1 < 0) {
