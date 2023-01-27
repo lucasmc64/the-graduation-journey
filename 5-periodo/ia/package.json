@@ -1,0 +1,47 @@
+{
+  "name": "the-link-trials",
+  "version": "1.0.0",
+  "description": "Trabalho de IA",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmc64/ia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucasmc64/ia/issues"
+  },
+  "homepage": "https://github.com/lucasmc64/ia#readme",
+  "devDependencies": {
+    "electron": "^19.0.0",
+    "electron-builder": "^23.0.0"
+  },
+  "build": {
+    "appId": "the-link-trials",
+    "productName": "The Link Trials",
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
+    "win": {
+      "target": [
+        "portable"
+      ]
+    },
+    "portable": {
+      "artifactName": "the-link-trials-win.exe"
+    },
+    "appImage": {
+      "artifactName": "the-link-trials-linux"
+    },
+    "directories": {
+      "output": "build"
+    }
+  }
+}

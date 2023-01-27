@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1660411009 source:/home/lucasmc64/Dev/juncao/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+
+1660416283 source:/home/lucasmc64/GitHub/juncao/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+

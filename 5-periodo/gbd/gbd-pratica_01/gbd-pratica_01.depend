@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1653761988 source:/home/lucasmc64/Code::BlocksProjects/gbd-pratica_01/main.c
+	<stdio.h>
+	<stdlib.h>
+	<sys/sysinfo.h>
+	<math.h>
+
+1653768834 source:e:\bibliotecas\documentos\gbd\gbd-pratica_01\main.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1653769730 source:e:\bibliotecas\documentos\gbd\gbd-pratica_01\gbd.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+
+1653767077 e:\bibliotecas\documentos\gbd\gbd-pratica_01\gbd.h
+	<stdio.h>
+
+1653769263 source:/home/lucasmc64/Dev/gbd/gbd-pratica_01/main.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1653768706 /home/lucasmc64/Dev/gbd/gbd-pratica_01/gbd.h
+	<stdio.h>
+
+1653769321 source:/home/lucasmc64/Dev/gbd/gbd-pratica_01/gbd.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+
+1653772543 source:/home/lucasmattosvieira/GitReps/gbd/gbd-pratica_01/gbd.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1653772429 /home/lucasmattosvieira/GitReps/gbd/gbd-pratica_01/gbd.h
+	<stdio.h>
+
+1653772429 source:/home/lucasmattosvieira/GitReps/gbd/gbd-pratica_01/main.c
+	"gbd.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+

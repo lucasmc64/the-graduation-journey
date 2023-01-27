@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <script type="module" src="./js/script.js" defer></script>
+
+    <title>Zelda: A Link to the Past</title>
+  </head>
+
+  <body>
+    <button id="play" aria-label="Play">
+      <span id="playIcon"></span>
+    </button>
+
+    <canvas id="map"></canvas>
+
+    <section id="costsSection" data-cost-path="0" data-cost-heuristic="0">
+      <h2>Custos</h2>
+
+      <div id="costs">
+        <p><strong>Caminho:</strong> <span id="costPath">0</span></p>
+        <p><strong>Heurística:</strong> <span id="costHeuristic">0</span></p>
+        <p><strong>Total:</strong> <span id="totalCost">0</span></p>
+      </div>
+    </section>
+  </body>
+</html>
